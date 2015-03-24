@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">My Application 2</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="title_activity_send_start">SendStart</string>
+    <string name="title_activity_track_start">TrackStart</string>
+    <string name="title_activity_offer_list">OfferList</string>
+    <string name="title_activity_user">User</string>
+
+
+    <string-array name="months_array">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+
+</resources>

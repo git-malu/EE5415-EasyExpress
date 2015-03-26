@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
     package="com.example.ouyanggang.myapplication2"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:versionCode="1"
     android:versionName="1.0">
+
     <application
-        android:icon="@drawable/ic_launcher"
         android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
@@ -21,7 +23,7 @@
         <activity
             android:name=".SendStart"
             android:label="@string/title_activity_send_start"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity">
         </activity>
         <activity
             android:name=".TrackStart"
@@ -38,16 +40,20 @@
             android:label="@string/title_activity_user"
             android:parentActivityName=".MainActivity">
         </activity>
+        <activity
+            android:name=".UserSettingActivity"
+            android:label="UserSettingActivity">
+        </activity>
 
     </application>
-    <uses-sdk android:minSdkVersion="8" />
+    <uses-sdk android:minSdkVersion="8"/>
     <!-- 添加对屏幕的支持 -->
     <supports-screens
+        android:anyDensity="true"
         android:largeScreens="true"
         android:normalScreens="true"
-        android:smallScreens="true"
         android:resizeable="true"
-        android:anyDensity="true" />
+        android:smallScreens="true"/>
     <!-- 添加百度地图开发的授权 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>

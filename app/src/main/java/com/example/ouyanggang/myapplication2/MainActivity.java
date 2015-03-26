@@ -87,23 +87,22 @@ public class MainActivity extends MapActivity {
         mToolbar.setBackgroundColor(getResources().getColor(R.color.background_toolbar));
         mToolbar.setTitleTextColor(getResources().getColor(R.color.text_color_toolbar));
         mToolbar.inflateMenu(R.menu.menu_main);
-        mToolbar.findViewById(R.id.user).setOnClickListener(new View.OnClickListener() {
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this,User.class);
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                if(menuItem.getItemId() == R.id.pref_settings){
+                    Intent i = new Intent(MainActivity.this,UserSettingActivity.class);
                 startActivity(i);
+                }else if(menuItem.getItemId() == R.id.user){
+                    Intent i = new Intent(MainActivity.this,User.class);
+                    startActivity(i);
+                }
+                return false;
             }
         });
+
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.action_settings){
-            Intent i = new Intent(getApplicationContext(),UserSettingActivity.class);
-            startActivityForResult(i,0);
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     protected void onDestroy() {

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--<PreferenceCategory android:title="@string/pref_user_profile">-->
-        <!--<EditTextPreference-->
-            <!--android:key="prefUsername"-->
-            <!--android:summary="@string/pref_user_name_summary"-->
-            <!--android:title="@string/pref_user_name" />-->
-    <!--</PreferenceCategory>-->
+    <PreferenceCategory android:title="user settings">
+        <EditTextPreference
+            android:key="prefUsername"
+            android:summary="test"
+            android:title="test" />
+    </PreferenceCategory>
 </PreferenceScreen>

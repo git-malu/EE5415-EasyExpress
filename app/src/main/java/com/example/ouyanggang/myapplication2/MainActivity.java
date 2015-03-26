@@ -3,6 +3,7 @@ package com.example.ouyanggang.myapplication2;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -40,7 +41,7 @@ public class MainActivity extends MapActivity {
             public void onGetPermissionState(int arg0) {
                 // TODO Auto-generated method stub
                 if (arg0 == 300) {
-                    Toast.makeText(MainActivity.this, "输入的Key有错！请核实！！", 1).show();
+                    Toast.makeText(MainActivity.this, "输入的Key有错！请核实！！",Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -93,6 +94,15 @@ public class MainActivity extends MapActivity {
                 startActivity(i);
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.action_settings){
+            Intent i = new Intent(getApplicationContext(),UserSettingActivity.class);
+            startActivityForResult(i,0);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -72,7 +72,8 @@
 
             <EditText
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"/>
         </LinearLayout>
 
         <LinearLayout
@@ -84,14 +85,14 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Register"
+                android:text="Login"
                 android:background="@color/primary_green"
                 android:layout_weight="1"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Clear"
+                android:text="Register"
                 android:background="@color/secondary_green"
                 android:layout_weight="1"/>
 

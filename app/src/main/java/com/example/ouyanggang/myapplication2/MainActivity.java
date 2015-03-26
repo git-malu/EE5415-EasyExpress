@@ -14,7 +14,12 @@ import com.baidu.mapapi.MKGeneralListener;
 import com.baidu.mapapi.MapActivity;
 import com.baidu.mapapi.MapController;
 import com.baidu.mapapi.MapView;
-
+/*to do list
+*
+* listView
+* dateinput
+* contentProvider
+* */
 public class MainActivity extends MapActivity {
     /** Called when the activity is first created. */
     private Toolbar mToolbar;
@@ -36,7 +41,6 @@ public class MainActivity extends MapActivity {
         bMapManager = new BMapManager(MainActivity.this);
         // 必须要加载key
         bMapManager.init(keyString, new MKGeneralListener() {
-
             @Override
             public void onGetPermissionState(int arg0) {
                 // TODO Auto-generated method stub
@@ -44,11 +48,9 @@ public class MainActivity extends MapActivity {
                     Toast.makeText(MainActivity.this, "输入的Key有错！请核实！！",Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onGetNetworkState(int arg0) {
                 // TODO Auto-generated method stub
-
             }
         });
 
@@ -62,7 +64,7 @@ public class MainActivity extends MapActivity {
         mapController.setCenter(geoPoint);// 设置一个中心点
         mapController.setZoom(12);// 设置缩放级别是12个级别
 
-        //Buttons
+        //Send Button
         mSendButton = (Button) findViewById(R.id.send_button);
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +73,7 @@ public class MainActivity extends MapActivity {
                 startActivity(i);
             }
         });
-
+        //Track Button
         mTrackButton = (Button) findViewById(R.id.track_button);
         mTrackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +82,7 @@ public class MainActivity extends MapActivity {
                 startActivity(i);
             }
         });
-
+        //Toolbar initialization.
         mToolbar = (Toolbar) findViewById(R.id.tool_bar);
         mToolbar.setTitle(" EasyExpress");
         mToolbar.setLogo(R.drawable.ic_launcher);
@@ -92,7 +94,7 @@ public class MainActivity extends MapActivity {
             public boolean onMenuItemClick(MenuItem menuItem) {
                 if(menuItem.getItemId() == R.id.pref_settings){
                     Intent i = new Intent(MainActivity.this,UserSettingActivity.class);
-                startActivity(i);
+                    startActivity(i);
                 }else if(menuItem.getItemId() == R.id.user){
                     Intent i = new Intent(MainActivity.this,User.class);
                     startActivity(i);

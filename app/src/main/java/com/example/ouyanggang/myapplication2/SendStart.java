@@ -1,15 +1,19 @@
 package com.example.ouyanggang.myapplication2;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 
 
 public class SendStart extends ActionBarActivity {
     private Toolbar mToolbar;
+    EditText mExpectedTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,6 +22,7 @@ public class SendStart extends ActionBarActivity {
         mToolbar.setBackgroundColor(getResources().getColor(R.color.primary_orange));
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
     }
 
@@ -45,5 +50,14 @@ public class SendStart extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showTimePickerDialog(View v) {
+        DialogFragment newFragment = new MyTimePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "timePicker");
+    }
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new MyDatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 }

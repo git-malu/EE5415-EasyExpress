@@ -1,4 +1,4 @@
-package com.example.ouyanggang.myapplication2;
+package com.example.ouyanggang.myapplication2.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import com.baidu.mapapi.MKGeneralListener;
 import com.baidu.mapapi.MapActivity;
 import com.baidu.mapapi.MapController;
 import com.baidu.mapapi.MapView;
+import com.example.ouyanggang.myapplication2.R;
+
 /*to do list
 *
 * listView

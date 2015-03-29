@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -21,27 +21,27 @@
 
 
         <activity
-            android:name=".SendStart"
+            android:name=".Activities.SendStart"
             android:label="@string/title_activity_send_start"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".Activities.MainActivity">
         </activity>
         <activity
-            android:name=".TrackStart"
+            android:name=".Activities.TrackStart"
             android:label="@string/title_activity_track_start"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".Activities.MainActivity">
         </activity>
         <activity
             android:name=".OfferList"
             android:label="@string/title_activity_offer_list"
-            android:parentActivityName=".TrackStart">
+            android:parentActivityName=".Activities.TrackStart">
         </activity>
         <activity
-            android:name=".User"
+            android:name=".Activities.User"
             android:label="@string/title_activity_user"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".Activities.MainActivity">
         </activity>
         <activity
-            android:name=".UserSettingActivity"
+            android:name=".Activities.UserSettingActivity"
             android:label="UserSettingActivity">
         </activity>
 

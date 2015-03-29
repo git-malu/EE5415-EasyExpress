@@ -1,9 +1,11 @@
-package com.example.ouyanggang.myapplication2;
+package com.example.ouyanggang.myapplication2.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.ouyanggang.myapplication2.R;
 
 
 public class User extends ActionBarActivity {

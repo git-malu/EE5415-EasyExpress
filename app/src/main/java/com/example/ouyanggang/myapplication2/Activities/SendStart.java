@@ -1,34 +1,32 @@
-package com.example.ouyanggang.myapplication2;
+package com.example.ouyanggang.myapplication2.Activities;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
-//import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.View;
+import android.widget.EditText;
+
+import com.example.ouyanggang.myapplication2.Fragments.MyDatePickerFragment;
+import com.example.ouyanggang.myapplication2.Fragments.MyTimePickerFragment;
+import com.example.ouyanggang.myapplication2.R;
 
 
-public class TrackStart extends ActionBarActivity {
+public class SendStart extends ActionBarActivity {
     private Toolbar mToolbar;
-//    private RecyclerView mRecycler;
-    private ListView mListView;
+    EditText mExpectedTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_track_start);
-        mToolbar = (Toolbar) findViewById(R.id.tool_bar);
-        mToolbar.setBackgroundColor(getResources().getColor(R.color.primary_blue));
+        setContentView(R.layout.activity_send_start);
+        mToolbar = (Toolbar)findViewById(R.id.tool_bar);
+        mToolbar.setBackgroundColor(getResources().getColor(R.color.primary_orange));
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-        mListView = (ListView) findViewById(R.id.list_view);
-        String[] months = getResources().getStringArray(R.array.months_array);
-        mListView.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.list_item, months));
 
     }
 
@@ -36,7 +34,7 @@ public class TrackStart extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_track_start, menu);
+        getMenuInflater().inflate(R.menu.menu_send_table, menu);
         return true;
     }
 
@@ -51,10 +49,19 @@ public class TrackStart extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-        if (id == R.id.home){
+        if(id == R.id.home){
             NavUtils.navigateUpFromSameTask(this);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showTimePickerDialog(View v) {
+        DialogFragment newFragment = new MyTimePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "timePicker");
+    }
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new MyDatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 }

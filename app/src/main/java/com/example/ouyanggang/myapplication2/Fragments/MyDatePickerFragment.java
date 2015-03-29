@@ -1,4 +1,4 @@
-package com.example.ouyanggang.myapplication2;
+package com.example.ouyanggang.myapplication2.Fragments;
 
 
 import android.app.DatePickerDialog;
@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
 import android.widget.EditText;
+
+import com.example.ouyanggang.myapplication2.R;
 
 import java.util.Calendar;
 

@@ -11,7 +11,7 @@ import java.util.Scanner;
  * use the constructor as input.
  * use the mBuffer as output.
  */
-public class ThreadRead extends Thread {
+public class ThreadLogin extends Thread {
     private static final int PORT = 12345;
     private static Socket link = null;
     private static Scanner in;
@@ -20,7 +20,7 @@ public class ThreadRead extends Thread {
     public String txt1;
     String user = "Peter";
 
-    public ThreadRead(String str) {
+    public ThreadLogin(String str) {
         txt1 = str;
     }
 

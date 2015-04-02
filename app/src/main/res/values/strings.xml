@@ -30,5 +30,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login_failed">Login Failed</string>
     <string name="login_succeeded">Login Succeeded !</string>
+    <string name="title_activity_user_register">UserRegister</string>
 
 </resources>

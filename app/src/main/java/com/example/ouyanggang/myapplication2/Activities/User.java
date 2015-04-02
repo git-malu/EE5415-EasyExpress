@@ -56,6 +56,7 @@ public class User extends ActionBarActivity {
                 }else{
                     Toast.makeText(User.this,"Login failed.",Toast.LENGTH_SHORT).show();
                 }
+                cs.close();//remember to close the cursor
             }
         });
         mRegister.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +76,11 @@ public class User extends ActionBarActivity {
             mUserPass.setText(data.getStringExtra("user_pass"));
         }
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     @Override

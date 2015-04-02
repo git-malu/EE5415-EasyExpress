@@ -80,7 +80,7 @@ public class MainActivity extends MapActivity {
         mTrackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this,TrackStart.class);
+                Intent i = new Intent(MainActivity.this,InquiryStart.class);
                 startActivity(i);
             }
         });

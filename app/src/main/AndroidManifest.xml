@@ -45,14 +45,9 @@
             android:parentActivityName=".Activities.MainActivity" >
         </activity>
         <activity
-            android:name=".Activities.TrackStart"
+            android:name=".Activities.InquiryStart"
             android:label="@string/title_activity_track_start"
             android:parentActivityName=".Activities.MainActivity" >
-        </activity>
-        <activity
-            android:name=".Activities.OfferList"
-            android:label="@string/title_activity_offer_list"
-            android:parentActivityName=".Activities.TrackStart" >
         </activity>
         <activity
             android:name=".Activities.User"

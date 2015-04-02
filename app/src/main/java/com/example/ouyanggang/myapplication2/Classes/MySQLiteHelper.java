@@ -36,4 +36,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         cv.put(MyDatabase.UserInfo.USER_PASS,user_pass);
         return db.insert(MyDatabase.UserInfo.TABLE_NAME,null,cv);
     }
+
+    public void queryUserInfo(SQLiteOpenHelper helper){
+
+    }
 }

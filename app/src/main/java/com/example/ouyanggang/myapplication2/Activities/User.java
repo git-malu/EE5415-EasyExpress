@@ -30,7 +30,7 @@ public class User extends ActionBarActivity {
         //wire up.
         mLogin = (Button) findViewById(R.id.login_button);
         mRegister = (Button) findViewById(R.id.register_button);
-        mUserPhone = (EditText) findViewById(R.id.user_name);
+        mUserPhone = (EditText) findViewById(R.id.user_phone);
         mUserPass = (EditText) findViewById(R.id.user_pass);
         //set clickListeners
         mLogin.setOnClickListener(new View.OnClickListener() {
@@ -42,21 +42,32 @@ public class User extends ActionBarActivity {
 //                ;
 //            }
 //            Toast.makeText(User.this, mThreadLogin.mBuffer,Toast.LENGTH_SHORT).show();
+
+                //query exactly the corresponding password.
                 MySQLiteHelper helper = new MySQLiteHelper(User.this);
                 SQLiteDatabase db = helper.getReadableDatabase();
-                String[] columns = {MyDatabase.UserInfo.USER_PASS};
+                String[] columns = {MyDatabase.UserInfo.USER_PASS, MyDatabase.UserInfo._ID};
                 String selection = MyDatabase.UserInfo._ID+" like ?";
                 String[] selectionArgs = {mUserPhone.getText().toString()};
-                Cursor cs = db.query(MyDatabase.UserInfo.TABLE_NAME, columns, selection, selectionArgs, null, null, null);
-                cs.moveToFirst();
+                Cursor cs = null;
                 //if password match
-                if(cs.getString(0).equals(mUserPass.getText().toString())){
-                    Toast.makeText(User.this,"Login success.",Toast.LENGTH_SHORT).show();
-                    finish();
-                }else{
+                try{
+                    //not all the columns are queried. Only 2 columns !!
+                    cs = db.query(MyDatabase.UserInfo.TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+                    cs.moveToFirst();
+                    if(cs.getString(0).equals(mUserPass.getText().toString())) {
+                        MyDatabase.mCurrentUserName = cs.getString(1);
+                        MyDatabase.mCurrentUserPhone = mUserPhone.getText().toString();
+                        MyDatabase.mCurrentUserPass = mUserPass.getText().toString();
+                        Toast.makeText(User.this, "Login success.", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                }catch (RuntimeException ex){
                     Toast.makeText(User.this,"Login failed.",Toast.LENGTH_SHORT).show();
                 }
-                cs.close();//remember to close the cursor
+                finally {
+                    cs.close();//remember to close the cursor
+                }
             }
         });
         mRegister.setOnClickListener(new View.OnClickListener() {

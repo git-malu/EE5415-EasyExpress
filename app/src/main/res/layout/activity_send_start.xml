@@ -58,7 +58,8 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="120dp"
+            android:layout_height="wrap_content"
+            android:minHeight="70dp"
             android:layout_marginTop="16dp"
             android:orientation="vertical">
 
@@ -76,25 +77,7 @@
 
 
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Phone NO.:"
-                android:textSize="25dp"/>
-
-            <EditText
-                android:id="@+id/edit_num"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:ems="10"/>
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"

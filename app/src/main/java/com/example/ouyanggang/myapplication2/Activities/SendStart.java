@@ -8,8 +8,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.ouyanggang.myapplication2.Classes.MyDatabase;
+import com.example.ouyanggang.myapplication2.Classes.MySQLiteHelper;
 import com.example.ouyanggang.myapplication2.Fragments.MyDatePickerFragment;
 import com.example.ouyanggang.myapplication2.Fragments.MyTimePickerFragment;
 import com.example.ouyanggang.myapplication2.R;
@@ -17,15 +20,52 @@ import com.example.ouyanggang.myapplication2.R;
 
 public class SendStart extends ActionBarActivity {
     private Toolbar mToolbar;
-    EditText mExpectedTime;
+    private Button mButtonConfrim,mButtonCancel;
+    private EditText mFrom,mTo,mDes,mExTime,mExDate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_start);
+        //set up the toolbar.
         mToolbar = (Toolbar)findViewById(R.id.tool_bar);
         mToolbar.setBackgroundColor(getResources().getColor(R.color.primary_orange));
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //wire up!
+        mButtonConfrim = (Button) findViewById(R.id.confirm);
+        mButtonCancel = (Button) findViewById(R.id.cancel);
+        mFrom = (EditText) findViewById(R.id.edit_from);
+        mTo = (EditText) findViewById(R.id.edit_to);
+        mDes = (EditText) findViewById(R.id.edit_des);
+        mExTime = (EditText) findViewById(R.id.edit_time);
+        mExDate = (EditText) findViewById(R.id.edit_date);
+
+        //set listeners
+        mButtonConfrim.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MySQLiteHelper helper = new MySQLiteHelper(SendStart.this);
+                helper.insertOrderRecord(helper,
+                        mFrom.getText().toString(),
+                        mTo.getText().toString(),
+                        MyDatabase.mCurrentUserPhone,
+                        null,//courier phone
+                        mExTime.getText().toString()+" "+mExDate.getText().toString(),
+                        mDes.getText().toString(),
+                        "wait");//order status
+            }
+        });
+
+        mButtonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
 
 
     }

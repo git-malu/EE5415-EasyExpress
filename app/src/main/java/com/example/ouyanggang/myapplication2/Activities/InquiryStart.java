@@ -1,16 +1,19 @@
 package com.example.ouyanggang.myapplication2.Activities;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
-//import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.ouyanggang.myapplication2.Fragments.MyListViewFragment;
 import com.example.ouyanggang.myapplication2.R;
+
+//import android.support.v7.widget.RecyclerView;
 
 
 public class InquiryStart extends ActionBarActivity {
@@ -21,15 +24,22 @@ public class InquiryStart extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inquiry_start);
+
+        //set up the toolbar
         mToolbar = (Toolbar) findViewById(R.id.tool_bar);
         mToolbar.setBackgroundColor(getResources().getColor(R.color.primary_blue));
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //
 
-        mListView = (ListView) findViewById(R.id.list_view);
-        String[] months = getResources().getStringArray(R.array.months_array);
-        mListView.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.list_item, months));
+        //take care of fragment
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+        if (fragment == null){
+            fragment = new MyListViewFragment();
+            fm.beginTransaction().add(R.id.fragment_container,fragment).commit();
+        }
+
 
     }
 

@@ -54,7 +54,7 @@ public class SendStart extends ActionBarActivity {
                         null,//courier phone
                         mExTime.getText().toString()+" "+mExDate.getText().toString(),
                         mDes.getText().toString(),
-                        "wait");//order status
+                        "wait");//order status set to "wait"
             }
         });
 

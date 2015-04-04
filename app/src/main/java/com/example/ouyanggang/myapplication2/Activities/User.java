@@ -67,6 +67,7 @@ public class User extends ActionBarActivity {
                 }
                 finally {
                     cs.close();//remember to close the cursor
+                    db.close();
                 }
             }
         });

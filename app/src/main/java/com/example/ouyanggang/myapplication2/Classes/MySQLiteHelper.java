@@ -2,6 +2,7 @@ package com.example.ouyanggang.myapplication2.Classes;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -12,7 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * records table.
  * table user_info columns: _ID(primary key) user_name user_pass ,where _ID is the user phone number.
  *
- * table order_records colums: _ID(primary key) from to user_phone(foreign key) courier_phone expected_time descriptions status, 8 columns here.
+ * table order_records colums: _ID(primary key) from to user_phone(foreign key) courier_phone expected_time descriptions status, 8 columns here. status:wait, accepted only 2(we can't get "done" status! )
  *
  */
 public class MySQLiteHelper extends SQLiteOpenHelper {
@@ -76,5 +77,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         cv.put(MyDatabase.OrderRecords.DESCRIPTIONS,description);
         cv.put(MyDatabase.OrderRecords.STATUS,status);
         return db.insert(MyDatabase.OrderRecords.TABLE_NAME,null,cv);
+    }
+
+    public Cursor queryOrderRecords(SQLiteOpenHelper helper,String[] columns, String whereClause, String[] whereArgs){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cs = db.query(MyDatabase.OrderRecords.TABLE_NAME, columns, whereClause, whereArgs, null, null, null);
+        cs.moveToFirst();
+        return cs;
     }
 }

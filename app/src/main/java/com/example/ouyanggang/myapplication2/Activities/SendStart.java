@@ -17,6 +17,8 @@ import com.example.ouyanggang.myapplication2.Fragments.MyDatePickerFragment;
 import com.example.ouyanggang.myapplication2.Fragments.MyTimePickerFragment;
 import com.example.ouyanggang.myapplication2.R;
 
+import java.util.Calendar;
+
 
 public class SendStart extends ActionBarActivity {
     private Toolbar mToolbar;
@@ -46,28 +48,36 @@ public class SendStart extends ActionBarActivity {
         mButtonConfrim.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //produce the Order_ID
+                final Calendar c = Calendar.getInstance();
+                String order_id = MyDatabase.mCurrentUserPhone
+                + c.get(Calendar.DAY_OF_MONTH)
+                +(c.get(Calendar.MONTH)+1)
+                +c.get(Calendar.YEAR)
+                +c.get(Calendar.HOUR_OF_DAY)
+                +c.get(Calendar.MINUTE)
+                +c.get(Calendar.SECOND);
+                //let's insert.
                 MySQLiteHelper helper = new MySQLiteHelper(SendStart.this);
                 helper.insertOrderRecord(helper,
+                        order_id,//order ID inserted !! made of user_phone + current date + current time as above
                         mFrom.getText().toString(),
                         mTo.getText().toString(),
                         MyDatabase.mCurrentUserPhone,
-                        null,//courier phone
+                        null,//courier phone set to null
                         mExTime.getText().toString()+" "+mExDate.getText().toString(),
                         mDes.getText().toString(),
                         "wait");//order status set to "wait"
+                //just for test, remember to delete it.
+//                mDes.setText(order_id);
             }
         });
-
         mButtonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-
-
-
-
     }
 
 

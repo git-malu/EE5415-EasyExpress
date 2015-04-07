@@ -24,10 +24,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             +MyDatabase.UserInfo._ID+" text primary key, "
             +MyDatabase.UserInfo.USER_NAME+" text, "
             +MyDatabase.UserInfo.USER_PASS + " text);";
-    //create table tableName(_ID text primary key autoincrement, from text, to text, user_phone text, courier_phone text, expected_time text, descriptions text, status text,
+    //create table tableName(_ID text primary key, from text, to text, user_phone text, courier_phone text, expected_time text, descriptions text, status text,
     //foreign key (user_phone) references user_info(_ID));
     public static final String CREATE_TABLE_RECORDS = "create table "+ MyDatabase.OrderRecords.TABLE_NAME+"("
-            + MyDatabase.OrderRecords._ID +" integer primary key autoincrement, "
+            + MyDatabase.OrderRecords._ID +" integer primary key, "
             + MyDatabase.OrderRecords.FROM +" text, "
             + MyDatabase.OrderRecords.TO +" text, "
             + MyDatabase.OrderRecords.USER_PHONE + " text, "
@@ -66,9 +66,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     }
 
-    public long insertOrderRecord(SQLiteOpenHelper helper, String from, String to, String user_phone, String courier_phone, String expected_time, String description, String status ){
+    public long insertOrderRecord(SQLiteOpenHelper helper, String order_id, String from, String to, String user_phone, String courier_phone, String expected_time, String description, String status ){
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues cv = new ContentValues();
+        cv.put(MyDatabase.OrderRecords._ID,order_id);
         cv.put(MyDatabase.OrderRecords.FROM,from);
         cv.put(MyDatabase.OrderRecords.TO,to);
         cv.put(MyDatabase.OrderRecords.USER_PHONE,user_phone);

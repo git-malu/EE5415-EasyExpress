@@ -13,7 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * records table.
  * table user_info columns: _ID(primary key) user_name user_pass ,where _ID is the user phone number.
  *
- * table order_records colums: _ID(primary key) from to user_phone(foreign key) courier_phone expected_time descriptions status, 8 columns here. status:wait, accepted only 2(we can't get "done" status! )
+ * table order_records columns: _ID(primary key) _from _to user_phone(foreign key) courier_phone expected_time descriptions status, 8 columns here. status:wait, accepted only 2(we can't get "done" status! )
  *
  */
 public class MySQLiteHelper extends SQLiteOpenHelper {

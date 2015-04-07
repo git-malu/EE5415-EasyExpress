@@ -40,7 +40,17 @@ public class MyTimePickerFragment extends DialogFragment implements TimePickerDi
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // Do something with the time chosen by the user
         EditText edit_time = (EditText)getActivity().findViewById(R.id.edit_time);
-        edit_time.setText(String.valueOf(hourOfDay)+":"+String.valueOf(minute));
+        if(hourOfDay<10){
+            if (minute<10){
+                edit_time.setText("0"+String.valueOf(hourOfDay)+":"+"0"+String.valueOf(minute));
+            }else{
+                edit_time.setText("0"+String.valueOf(hourOfDay)+":"+String.valueOf(minute));
+            }
+        }else if(minute<10){
+            edit_time.setText(String.valueOf(hourOfDay)+":"+"0"+String.valueOf(minute));
+        }else{
+            edit_time.setText(String.valueOf(hourOfDay)+":"+String.valueOf(minute));
+        }
     }
 
 

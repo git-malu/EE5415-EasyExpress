@@ -39,7 +39,18 @@ public class MyDatePickerFragment extends DialogFragment implements DatePickerDi
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
         EditText edit_date = (EditText)getActivity().findViewById(R.id.edit_date);
-        edit_date.setText(String.valueOf(day)+"/"+String.valueOf(month)+"/"+String.valueOf(year));
+
+        if(month<10){
+            if(day<10){
+                edit_date.setText("0"+String.valueOf(day)+"/"+"0"+String.valueOf(month)+"/"+String.valueOf(year));
+            }else{
+                edit_date.setText(String.valueOf(day)+"/"+"0"+String.valueOf(month)+"/"+String.valueOf(year));
+            }
+        }else if(day<10){
+            edit_date.setText("0"+String.valueOf(day)+"/"+String.valueOf(month)+"/"+String.valueOf(year));
+        }else{
+            edit_date.setText(String.valueOf(day)+"/"+String.valueOf(month)+"/"+String.valueOf(year));
+        }
     }
 
 

@@ -27,10 +27,10 @@ public class ThreadLogin extends Thread {
     @Override
     public void run() {
         try {
-            link = new Socket("144.214.101.204", PORT);
+            link = new Socket("144.214.103.195", PORT);
             in = new Scanner(link.getInputStream());
             out = new PrintWriter(link.getOutputStream(), true);
-            out.println("login:malu:23");
+            out.println("login:Malu:2123");
             //Loop
 
                 mBuffer = in.nextLine();

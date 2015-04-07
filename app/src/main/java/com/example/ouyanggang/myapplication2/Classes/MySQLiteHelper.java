@@ -38,6 +38,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + "foreign key"+" ("+ MyDatabase.OrderRecords.USER_PHONE+") "
             + "references " + MyDatabase.UserInfo.TABLE_NAME + "("+ MyDatabase.UserInfo._ID+"));";
 
+    public static final String CREATE_TABLE_OFFERS = "create table " + MyDatabase.Offers.TABLE_NAME + "("
+            + MyDatabase.Offers._ID + " text,"
+            + MyDatabase.Offers.COURIER_PHONE + " text, "
+            + MyDatabase.Offers.PICK_TIME + " text, "
+            + MyDatabase.Offers.PACKAGE_ARRIVAL_TIME + " text, "
+            + "primary key ("+ MyDatabase.Offers._ID + ", " + MyDatabase.Offers.COURIER_PHONE + "));";
+
     public MySQLiteHelper(Context context) {
         super(context, mDatabaseName, null, mDataBaseVersion);
     }

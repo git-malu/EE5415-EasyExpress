@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.ouyanggang.myapplication2.Classes.MyDatabase;
 import com.example.ouyanggang.myapplication2.Classes.MySQLiteHelper;
@@ -68,6 +69,7 @@ public class SendStart extends ActionBarActivity {
                         mExTime.getText().toString()+" "+mExDate.getText().toString(),
                         mDes.getText().toString(),
                         "wait");//order status set to "wait"
+                Toast.makeText(SendStart.this,"Order sent successfully.",Toast.LENGTH_SHORT).show();
                 //just for test, remember to delete it.
 //                mDes.setText(order_id);
             }

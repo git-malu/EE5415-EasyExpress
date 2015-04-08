@@ -1,6 +1,8 @@
 package com.example.ouyanggang.myapplication2.Activities;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -10,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.ouyanggang.myapplication2.Classes.MyDatabase;
+import com.example.ouyanggang.myapplication2.Classes.MySQLiteHelper;
 import com.example.ouyanggang.myapplication2.Classes.ThreadLogin;
 import com.example.ouyanggang.myapplication2.R;
 
@@ -18,7 +22,8 @@ public class User extends ActionBarActivity {
     private Button mLogin,mRegister;
     private EditText mUserPhone,mUserPass;
     private static final int sRequestCodeUserRegister = 0;
-    Boolean isLoginSuccess,isRegisterSuccess;
+
+    public static boolean mLoginStatus = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,42 +38,12 @@ public class User extends ActionBarActivity {
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            ThreadLogin mThreadLogin = new ThreadLogin("1");
-            mThreadLogin.start();
-            while (mThreadLogin.mBuffer == null){
-                ;
-            }
-            Toast.makeText(User.this, mThreadLogin.mBuffer, Toast.LENGTH_SHORT).show();
-                mThreadLogin.mBuffer = null;
+//                Toast toast = Toast.makeText(User.this, "test", Toast.LENGTH_SHORT);
 
-                //query exactly the corresponding password.
-/*                MySQLiteHelper helper = new MySQLiteHelper(User.this);
-                SQLiteDatabase db = helper.getReadableDatabase();
-                String[] columns = {MyDatabase.UserInfo.USER_PASS, MyDatabase.UserInfo._ID};
-                String selection = MyDatabase.UserInfo._ID+" like ?";
-                String[] selectionArgs = {mUserPhone.getText().toString()};
-                Cursor cs = null;*/
-                //if password match
-                /*try{
-                    //not all the columns are queried. Only 2 columns !!
+                ThreadLogin mThreadLogin = new ThreadLogin(User.this);
+                mThreadLogin.start();
+                //Off Line mode SQLite: query exactly the corresponding password.
 
-                    cs = db.query(MyDatabase.UserInfo.TABLE_NAME, columns, selection, selectionArgs, null, null, null);
-                    cs.moveToFirst();
-
-                    if(cs.getString(0).equals(mUserPass.getText().toString())) {
-                        MyDatabase.mCurrentUserName = cs.getString(1);
-                        MyDatabase.mCurrentUserPhone = mUserPhone.getText().toString();
-                        MyDatabase.mCurrentUserPass = mUserPass.getText().toString();
-                        Toast.makeText(User.this, "Login success.", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                }catch (RuntimeException ex){
-                    Toast.makeText(User.this,"Login failed.",Toast.LENGTH_SHORT).show();
-                }
-                finally {
-                    cs.close();//remember to close the cursor
-                    db.close();
-                }*/
             }
         });
 

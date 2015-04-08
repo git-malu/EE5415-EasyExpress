@@ -1,5 +1,12 @@
 package com.example.ouyanggang.myapplication2.Classes;
 
+import android.app.Activity;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
+
+import com.example.ouyanggang.myapplication2.Activities.User;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -17,11 +24,9 @@ public class ThreadLogin extends Thread {
     private static Scanner in;
     private static PrintWriter out;
     public String mBuffer = null;
-    public String txt1;
-    String user = "Peter";
-
-    public ThreadLogin(String str) {
-        txt1 = str;
+    Activity mActivity;
+    public ThreadLogin(Activity activity) {
+        mActivity = activity;
     }
 
     @Override
@@ -31,12 +36,7 @@ public class ThreadLogin extends Thread {
             in = new Scanner(link.getInputStream());
             out = new PrintWriter(link.getOutputStream(), true);
             out.println("login:Malu:2123");
-            //Loop
-
-                mBuffer = in.nextLine();
-//                mBuffer = "true";
-                //setContentView(R.layout.activity_reservation_list);
-                //codes to process the data received from the server
+            mBuffer = in.nextLine();
 
 
         } catch (UnknownHostException uhEx) {
@@ -53,5 +53,44 @@ public class ThreadLogin extends Thread {
                 ioEx.printStackTrace();
             }
         }
+
+        //UI thread
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(mBuffer.equalsIgnoreCase("true")){
+                    User.mLoginStatus = true;
+                    Toast.makeText(mActivity, "Login Success.", Toast.LENGTH_SHORT).show();
+                }else{
+                    MySQLiteHelper helper = new MySQLiteHelper(User.this);
+                    SQLiteDatabase db = helper.getReadableDatabase();
+                    String[] columns = {MyDatabase.UserInfo.USER_PASS, MyDatabase.UserInfo._ID};
+                    String selection = MyDatabase.UserInfo._ID+" like ?";
+                    String[] selectionArgs = {mUserPhone.getText().toString()};
+                    Cursor cs = null;
+                    //if password match
+                    try{
+                        //not all the columns are queried. Only 2 columns !!
+
+                        cs = db.query(MyDatabase.UserInfo.TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+                        cs.moveToFirst();
+
+                        if(cs.getString(0).equals(mUserPass.getText().toString())) {
+                            MyDatabase.mCurrentUserName = cs.getString(1);
+                            MyDatabase.mCurrentUserPhone = mUserPhone.getText().toString();
+                            MyDatabase.mCurrentUserPass = mUserPass.getText().toString();
+                            Toast.makeText(User.this, "OffLine Login success.", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    }catch (RuntimeException ex){
+                        Toast.makeText(User.this,"OffLine Login failed.",Toast.LENGTH_SHORT).show();
+                    }
+                    finally {
+                        cs.close();//remember to close the cursor
+                        db.close();
+                    }
+                }
+            }
+        });
     }
 }

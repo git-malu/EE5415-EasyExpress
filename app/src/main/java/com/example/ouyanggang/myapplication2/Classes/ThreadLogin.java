@@ -3,6 +3,7 @@ package com.example.ouyanggang.myapplication2.Classes;
 import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -71,6 +72,9 @@ public class ThreadLogin extends Thread {
                     Toast.makeText(mActivity, "Login Success.", Toast.LENGTH_SHORT).show();
                     MyDatabase.mCurrentUserPhone = mUserPhone.getText().toString();
                     MyDatabase.mCurrentUserPass = mUserPass.getText().toString();
+                    User.mLoginStatus = true;
+                    mActivity.finish();
+                    Log.d("Login Success","finish?");
                 }else{
                     MySQLiteHelper helper = new MySQLiteHelper(mActivity);
                     SQLiteDatabase db = helper.getReadableDatabase();
@@ -90,7 +94,7 @@ public class ThreadLogin extends Thread {
                             MyDatabase.mCurrentUserPhone = mUserPhone.getText().toString();
                             MyDatabase.mCurrentUserPass = mUserPass.getText().toString();
                             Toast.makeText(mActivity, "OffLine Login success.", Toast.LENGTH_SHORT).show();
-                            User.mLoginStatus = false;
+                            User.mLoginStatus = true;
                             mActivity.finish();
                         }else{
                             Toast.makeText(mActivity,"OffLine Login failed.",Toast.LENGTH_SHORT).show();

@@ -2,6 +2,7 @@ package com.example.ouyanggang.myapplication2.Classes;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -37,7 +38,7 @@ public class ThreadRegister extends Thread {
             link = new Socket(MyDatabase.IP, PORT);
             in = new Scanner(link.getInputStream());
             out = new PrintWriter(link.getOutputStream(), true);
-            out.println("register:" + mUserPhone + ":" + mUserPass);
+            out.println("register:" + mUserPhone + ":" +mUserName+ ":" + mUserPass);
             mBuffer = in.nextLine();
         } catch (UnknownHostException uhEx) {
             System.out.println("not host find");
@@ -69,6 +70,7 @@ public class ThreadRegister extends Thread {
                     mActivity.finish();
                 }else{
                     Toast.makeText(mActivity,"Registration failed.",Toast.LENGTH_SHORT).show();
+                    Log.d("ThreadRegister",mBuffer);
                 }
             }
         });

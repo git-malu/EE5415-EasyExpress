@@ -27,7 +27,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     //create table tableName(_ID text primary key, from text, to text, user_phone text, courier_phone text, expected_time text, descriptions text, status text,
     //foreign key (user_phone) references user_info(_ID));
     public static final String CREATE_TABLE_RECORDS = "create table "+ MyDatabase.OrderRecords.TABLE_NAME+"("
-            + MyDatabase.OrderRecords._ID +" integer primary key, "
+            + MyDatabase.OrderRecords._ID +" text primary key, "
             + MyDatabase.OrderRecords.FROM +" text, "
             + MyDatabase.OrderRecords.TO +" text, "
             + MyDatabase.OrderRecords.USER_PHONE + " text, "

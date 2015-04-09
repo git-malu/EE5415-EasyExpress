@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.ouyanggang.myapplication2.Classes.MyDatabase;
 import com.example.ouyanggang.myapplication2.Classes.MySQLiteHelper;
+import com.example.ouyanggang.myapplication2.Classes.ThreadSend;
 import com.example.ouyanggang.myapplication2.Fragments.MyDatePickerFragment;
 import com.example.ouyanggang.myapplication2.Fragments.MyTimePickerFragment;
 import com.example.ouyanggang.myapplication2.R;
@@ -58,7 +59,23 @@ public class SendStart extends ActionBarActivity {
                 +c.get(Calendar.HOUR_OF_DAY)
                 +c.get(Calendar.MINUTE)
                 +c.get(Calendar.SECOND);
-                //let's insert.
+
+                //modify the exTime
+                String[] tokens = mExTime.getText().toString().split(":");
+
+                String string_send = "order:"
+                        + order_id + ":"
+                        + mFrom.getText().toString()+":"
+                        + mTo.getText().toString()+":"
+                        + MyDatabase.mCurrentUserPhone+":"
+                        + "null"+":"
+                        + tokens[0]+"-"+tokens[1]+" "+mExDate.getText().toString()+":"
+                        + mDes.getText().toString()+":"
+                        + "wait"+":"
+                        + "null";
+                //start the send thread.
+                new ThreadSend(SendStart.this,string_send).start();
+                //let's insert into SQLite.
                 MySQLiteHelper helper = new MySQLiteHelper(SendStart.this);
                 helper.insertOrderRecord(helper,
                         order_id,//order ID inserted !! made of user_phone + current date + current time as above

@@ -1,8 +1,6 @@
 package com.example.ouyanggang.myapplication2.Activities;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -10,10 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.example.ouyanggang.myapplication2.Classes.MyDatabase;
-import com.example.ouyanggang.myapplication2.Classes.MySQLiteHelper;
 import com.example.ouyanggang.myapplication2.Classes.ThreadLogin;
 import com.example.ouyanggang.myapplication2.R;
 
@@ -38,12 +33,9 @@ public class User extends ActionBarActivity {
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast toast = Toast.makeText(User.this, "test", Toast.LENGTH_SHORT);
-
-                ThreadLogin mThreadLogin = new ThreadLogin(User.this);
+                //Thread Login
+                ThreadLogin mThreadLogin = new ThreadLogin(User.this,mUserPhone.getText().toString(),mUserPass.getText().toString());
                 mThreadLogin.start();
-                //Off Line mode SQLite: query exactly the corresponding password.
-
             }
         });
 

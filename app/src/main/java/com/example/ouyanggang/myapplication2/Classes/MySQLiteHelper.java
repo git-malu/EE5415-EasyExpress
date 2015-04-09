@@ -84,7 +84,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         cv.put(MyDatabase.OrderRecords.EXPECTED_TIME,expected_time);
         cv.put(MyDatabase.OrderRecords.DESCRIPTIONS,description);
         cv.put(MyDatabase.OrderRecords.STATUS,status);
-        return db.insert(MyDatabase.OrderRecords.TABLE_NAME,null,cv);
+        long result = db.insert(MyDatabase.OrderRecords.TABLE_NAME,null,cv);
+        db.close();
+        return result;
     }
 
     public Cursor queryOrderRecords(SQLiteOpenHelper helper,String[] columns, String whereClause, String[] whereArgs){

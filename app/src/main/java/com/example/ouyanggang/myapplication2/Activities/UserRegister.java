@@ -1,6 +1,5 @@
 package com.example.ouyanggang.myapplication2.Activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -8,9 +7,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.example.ouyanggang.myapplication2.Classes.MySQLiteHelper;
+import com.example.ouyanggang.myapplication2.Classes.ThreadRegister;
 import com.example.ouyanggang.myapplication2.R;
 
 public class UserRegister extends ActionBarActivity {
@@ -31,22 +29,8 @@ public class UserRegister extends ActionBarActivity {
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                MySQLiteHelper helper = new MySQLiteHelper(UserRegister.this);
-                long result = helper.registerUserInfo(helper,mUserPhone.getText().toString(),mUserName.getText().toString(),mUserPass.getText().toString());
-                if(result == -1){
-                    Toast.makeText(UserRegister.this,"Registration failed, please try again later.",Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(UserRegister.this,"Registration success.",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent();
-                    intent.putExtra("user_name",mUserName.getText().toString());
-                    intent.putExtra("user_pass",mUserPass.getText().toString());
-                    intent.putExtra("user_phone",mUserPhone.getText().toString());
-                    setResult(RESULT_OK,intent);
-                    finish();
-                }
-
-
+                ThreadRegister mThreadRegister = new ThreadRegister(UserRegister.this,mUserPhone.getText().toString(),mUserName.getText().toString(),mUserPass.getText().toString());
+                mThreadRegister.start();
             }
         });
 

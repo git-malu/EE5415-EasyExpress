@@ -13,6 +13,7 @@ public class MyDatabase {
     public static String mCurrentUserName;
     public static String mCurrentUserPhone;
     public static String mCurrentUserPass;
+    public static final String IP = "61.233.8.135";
 
     public static abstract class UserInfo implements BaseColumns{
         //phone number is used as _ID of baseCoulums

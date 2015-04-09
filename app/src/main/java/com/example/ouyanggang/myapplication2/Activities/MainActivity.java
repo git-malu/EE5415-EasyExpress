@@ -21,6 +21,7 @@ import com.example.ouyanggang.myapplication2.R;
 * listView
 * dateinput
 * contentProvider
+*
 * */
 public class MainActivity extends MapActivity {
     /** Called when the activity is first created. */

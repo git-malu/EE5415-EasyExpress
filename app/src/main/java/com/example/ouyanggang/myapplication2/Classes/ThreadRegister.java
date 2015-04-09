@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -44,6 +45,8 @@ public class ThreadRegister extends Thread {
             System.out.println("not host find");
         } catch (IOException ioEx) {
             ioEx.printStackTrace();
+        } catch (NoSuchElementException noEx){
+            ;
         } finally {
             try {
                 if (link != null) {

@@ -59,6 +59,5 @@ public class ThreadInquiryOffer extends Thread {
                 ioEx.printStackTrace();
             }
         }
-//        mActivity.runOnUiThread();
     }
 }

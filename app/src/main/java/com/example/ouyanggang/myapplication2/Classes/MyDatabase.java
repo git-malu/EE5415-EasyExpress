@@ -13,7 +13,7 @@ public class MyDatabase {
     public static String mCurrentUserName;
     public static String mCurrentUserPhone;
     public static String mCurrentUserPass;
-    public static final String IP = "175.159.67.55";
+    public static final String IP = "144.214.103.219";
     public static String mLoginStatus = "false";
     public static String mSendStatus = "false";
 

@@ -100,6 +100,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             cs.moveToFirst();
         }catch (IllegalArgumentException ilEx){
             cs = null;
+        }finally {
+            db.close();
         }
         return cs;
     }
@@ -117,6 +119,21 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.close();
         return result;
     }
+    public Cursor queryOffers(SQLiteOpenHelper helper,String[] columns, String whereClause, String[] whereArgs){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cs;
+        try {
+            cs = db.query(MyDatabase.Offers.TABLE_NAME, columns, whereClause, whereArgs, null, null, null);
+            cs.moveToFirst();
+        }catch (IllegalArgumentException ilEx){
+            cs = null;
+        }finally {
+            db.close();
+        }
+        return cs;
+    }
+
+
 
 
 }

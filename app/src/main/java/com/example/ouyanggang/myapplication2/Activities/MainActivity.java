@@ -21,6 +21,9 @@ import com.example.ouyanggang.myapplication2.R;
 * listView
 * dateinput
 * contentProvider
+* 马路：登陆成功时，下载所有用户order，发送order成功时，才会将刚发送的order存入SQLite。
+* 查看order时候，只显示SQLite中的order，因为前面两个步骤保证了和服务器的order记录同步。
+* 至于offer的处理方式，暂时不用SQLite存储。纯粹网上读取。
 *
 * */
 public class MainActivity extends MapActivity {

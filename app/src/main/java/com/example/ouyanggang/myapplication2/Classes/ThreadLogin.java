@@ -7,7 +7,6 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.ouyanggang.myapplication2.Activities.User;
 import com.example.ouyanggang.myapplication2.R;
 
 import java.io.IOException;
@@ -71,14 +70,59 @@ public class ThreadLogin extends Thread {
                 EditText mUserPhone = (EditText) mActivity.findViewById(R.id.user_phone);
                 EditText mUserPass = (EditText) mActivity.findViewById(R.id.user_pass);
                 if(mBuffer.equalsIgnoreCase("true")){
-                    User.mLoginStatus = true;
+                    MyDatabase.mLoginStatus = "true";
                     Toast.makeText(mActivity, "Login Success.", Toast.LENGTH_SHORT).show();
                     MyDatabase.mCurrentUserPhone = mUserPhone.getText().toString();
                     MyDatabase.mCurrentUserPass = mUserPass.getText().toString();
-                    User.mLoginStatus = true;
+                    MyDatabase.mLoginStatus = "true";
+
+                    //open SQLite
+
+                    //download the orders from the server
+                    try {
+                        link = new Socket(MyDatabase.IP, PORT);
+                        in = new Scanner(link.getInputStream());
+                        out = new PrintWriter(link.getOutputStream(), true);
+                        //format "inquiry_order_user_phone:user_phone" 根据user-phone进行筛选 order
+                        out.println("inquiry_order_user_phone:" + MyDatabase.mCurrentUserPhone);
+                        mBuffer = in.nextLine();
+
+                        //insert into SQLite.
+                        MySQLiteHelper helper = new MySQLiteHelper(mActivity);
+                        String[] tokens = mBuffer.split(":");
+                        for(int i = 0;i<tokens.length/9;i++){
+                            helper.insertOrderRecord(helper,
+                                    tokens[0+i*9],
+                                    tokens[1+i*9],
+                                    tokens[2+i*9],
+                                    tokens[3+i*9],
+                                    tokens[4+i*9],
+                                    tokens[5+i*9],
+                                    tokens[6+i*9],
+                                    tokens[7+i*9]
+                                    );
+                        }
+                    } catch (UnknownHostException uhEx) {
+                        System.out.println("not host find");
+                    } catch (IOException ioEx) {
+                        ioEx.printStackTrace();
+                    } catch (NoSuchElementException noEx){
+                        ;
+                    } finally {
+                        try {
+                            if (link != null) {
+                                System.out.println("Closing down connection...");
+                                link.close();
+                            }
+                        } catch (IOException ioEx) {
+                            ioEx.printStackTrace();
+                        }
+                    }
                     mActivity.finish();
-                    Log.d("Login Success","finish?");
+                    Log.d("Login Success","login activity finish.");
+
                 }else{
+
                     MySQLiteHelper helper = new MySQLiteHelper(mActivity);
                     SQLiteDatabase db = helper.getReadableDatabase();
                     String[] columns = {MyDatabase.UserInfo.USER_PASS, MyDatabase.UserInfo._ID};
@@ -97,15 +141,15 @@ public class ThreadLogin extends Thread {
                             MyDatabase.mCurrentUserPhone = mUserPhone.getText().toString();
                             MyDatabase.mCurrentUserPass = mUserPass.getText().toString();
                             Toast.makeText(mActivity, "OffLine Login success.", Toast.LENGTH_SHORT).show();
-                            User.mLoginStatus = true;
+                            MyDatabase.mLoginStatus = "offline";
                             mActivity.finish();
                         }else{
                             Toast.makeText(mActivity,"OffLine Login failed.",Toast.LENGTH_SHORT).show();
-                            User.mLoginStatus = false;
+                            MyDatabase.mLoginStatus = "false";
                         }
                     }catch (RuntimeException ex){
                         Toast.makeText(mActivity,"OffLine Login failed.",Toast.LENGTH_SHORT).show();
-                        User.mLoginStatus = false;
+                        MyDatabase.mLoginStatus = "false";
                     }
                     finally {
                         cs.close();//remember to close the cursor

@@ -57,7 +57,8 @@ public class ThreadSend extends Thread {
             @Override
             public void run() {
                 if(mBuffer.equalsIgnoreCase("true")){
-                    Toast.makeText(mActivity,"Send Order successfully.",Toast.LENGTH_SHORT).show();
+                    MyDatabase.mSendStatus = "true";
+                    Toast.makeText(mActivity,"FeedBack: Send Order successfully.",Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -17,8 +17,6 @@ public class User extends ActionBarActivity {
     private Button mLogin,mRegister;
     private EditText mUserPhone,mUserPass;
     private static final int sRequestCodeUserRegister = 0;
-
-    public static boolean mLoginStatus = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

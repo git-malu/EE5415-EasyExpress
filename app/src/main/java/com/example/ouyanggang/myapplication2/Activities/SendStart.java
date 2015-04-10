@@ -24,7 +24,7 @@ import java.util.Calendar;
 
 public class SendStart extends ActionBarActivity {
     private Toolbar mToolbar;
-    private Button mButtonConfrim,mButtonCancel;
+    private Button mButtonConfirm,mButtonCancel;
     private EditText mFrom,mTo,mDes,mExTime,mExDate;
 
     @Override
@@ -38,7 +38,7 @@ public class SendStart extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //wire up!
-        mButtonConfrim = (Button) findViewById(R.id.confirm);
+        mButtonConfirm = (Button) findViewById(R.id.confirm);
         mButtonCancel = (Button) findViewById(R.id.cancel);
         mFrom = (EditText) findViewById(R.id.edit_from);
         mTo = (EditText) findViewById(R.id.edit_to);
@@ -47,48 +47,53 @@ public class SendStart extends ActionBarActivity {
         mExDate = (EditText) findViewById(R.id.edit_date);
 
         //set listeners
-        mButtonConfrim.setOnClickListener(new View.OnClickListener() {
+        mButtonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //produce the Order_ID
-                final Calendar c = Calendar.getInstance();
-                String order_id = MyDatabase.mCurrentUserPhone
-                + c.get(Calendar.DAY_OF_MONTH)
-                +(c.get(Calendar.MONTH)+1)
-                +c.get(Calendar.YEAR)
-                +c.get(Calendar.HOUR_OF_DAY)
-                +c.get(Calendar.MINUTE)
-                +c.get(Calendar.SECOND);
+                if (MyDatabase.mLoginStatus.equalsIgnoreCase("true")) {
+                    //produce the Order_ID
+                    final Calendar c = Calendar.getInstance();
+                    String order_id = MyDatabase.mCurrentUserPhone
+                            + c.get(Calendar.DAY_OF_MONTH)
+                            + (c.get(Calendar.MONTH) + 1)
+                            + c.get(Calendar.YEAR)
+                            + c.get(Calendar.HOUR_OF_DAY)
+                            + c.get(Calendar.MINUTE)
+                            + c.get(Calendar.SECOND);
 
-                //modify the exTime
-                String[] tokens = mExTime.getText().toString().split(":");
+                    //modify the exTime
+                    String[] tokens = mExTime.getText().toString().split(":");
 
-                String string_send = "order:"
-                        + order_id + ":"
-                        + mFrom.getText().toString()+":"
-                        + mTo.getText().toString()+":"
-                        + MyDatabase.mCurrentUserPhone+":"
-                        + "null"+":"
-                        + tokens[0]+"-"+tokens[1]+" "+mExDate.getText().toString()+":"
-                        + mDes.getText().toString()+":"
-                        + "wait"+":"
-                        + "null";
-                //start the send thread.
-                new ThreadSend(SendStart.this,string_send).start();
-                //let's insert into SQLite.
-                MySQLiteHelper helper = new MySQLiteHelper(SendStart.this);
-                helper.insertOrderRecord(helper,
-                        order_id,//order ID inserted !! made of user_phone + current date + current time as above
-                        mFrom.getText().toString(),
-                        mTo.getText().toString(),
-                        MyDatabase.mCurrentUserPhone,
-                        null,//courier phone set to null
-                        mExTime.getText().toString()+" "+mExDate.getText().toString(),
-                        mDes.getText().toString(),
-                        "wait");//order status set to "wait"
-                Toast.makeText(SendStart.this,"Order sent successfully.",Toast.LENGTH_SHORT).show();
-                //just for test, remember to delete it.
+                    String string_send = "order:"
+                            + order_id + ":"
+                            + mFrom.getText().toString() + ":"
+                            + mTo.getText().toString() + ":"
+                            + MyDatabase.mCurrentUserPhone + ":"
+                            + "null" + ":"
+                            + tokens[0] + "-" + tokens[1] + " " + mExDate.getText().toString() + ":"
+                            + mDes.getText().toString() + ":"
+                            + "wait" + ":"
+                            + "null";
+                    //start the send thread.
+                    new ThreadSend(SendStart.this, string_send).start();
+                    if (MyDatabase.mSendStatus.equalsIgnoreCase("true")) {
+                        //let's insert into SQLite.
+                        MySQLiteHelper helper = new MySQLiteHelper(SendStart.this);
+                        helper.insertOrderRecord(helper,
+                                order_id,//order ID inserted !! made of user_phone + current date + current time as above
+                                mFrom.getText().toString(),
+                                mTo.getText().toString(),
+                                MyDatabase.mCurrentUserPhone,
+                                null,//courier phone set to null
+                                mExTime.getText().toString() + " " + mExDate.getText().toString(),
+                                mDes.getText().toString(),
+                                "wait");//order status set to "wait"
+                        Toast.makeText(SendStart.this, "Order sent successfully.", Toast.LENGTH_SHORT).show();
+                        MyDatabase.mSendStatus = "false";
+                        //just for test, remember to delete it.
 //                mDes.setText(order_id);
+                    }
+                }
             }
         });
         mButtonCancel.setOnClickListener(new View.OnClickListener() {

@@ -47,7 +47,8 @@ public class ThreadLogin extends Thread {
             out.println("login:"+mUserPhone+":"+mUserPass);
             mBuffer = in.nextLine();
             if(mBuffer.equalsIgnoreCase("true")){
-
+                MyDatabase.mCurrentUserPhone = mUserPhone;
+                MyDatabase.mCurrentUserPass = mUserPass;
                 MyDatabase.mLoginStatus = "true";
                 //format "inquiry_order_user_phone:user_phone" 根据user-phone进行筛选 order
                 out.println("inquiry_order_user_phone:" + MyDatabase.mCurrentUserPhone);

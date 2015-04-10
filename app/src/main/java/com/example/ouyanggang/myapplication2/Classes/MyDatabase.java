@@ -38,10 +38,12 @@ public class MyDatabase {
 
     public static abstract class Offers implements BaseColumns{
         //the primary key is a composition key.  order_id + courier_phone
-        public static final String TABLE_NAME = "offers";
+        public static final String TABLE_NAME = "offer_records";
+        //6 columns
         public static final String COURIER_PHONE = "courier_phone";
         public static final String PRICE = "price";
         public static final String PICK_TIME = "pick_time";
         public static final String PACKAGE_ARRIVAL_TIME = "package_arrival_time";
+        public static final String COURIER_LOCATION ="courier_location";
     }
 }

@@ -39,10 +39,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + "references " + MyDatabase.UserInfo.TABLE_NAME + "("+ MyDatabase.UserInfo._ID+"));";
 
     public static final String CREATE_TABLE_OFFERS = "create table " + MyDatabase.Offers.TABLE_NAME + "("
-            + MyDatabase.Offers._ID + " text,"
+            + MyDatabase.Offers._ID + " text,"//order_ID
             + MyDatabase.Offers.COURIER_PHONE + " text, "
+            + MyDatabase.Offers.PRICE +" text, "
             + MyDatabase.Offers.PICK_TIME + " text, "
             + MyDatabase.Offers.PACKAGE_ARRIVAL_TIME + " text, "
+            + MyDatabase.Offers.COURIER_LOCATION + " text, "
             + "primary key ("+ MyDatabase.Offers._ID + ", " + MyDatabase.Offers.COURIER_PHONE + "));";
 
     public MySQLiteHelper(Context context) {
@@ -53,6 +55,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_USER);
         db.execSQL(CREATE_TABLE_RECORDS);
+        db.execSQL(CREATE_TABLE_OFFERS);
     }
 
     @Override
@@ -100,4 +103,20 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         }
         return cs;
     }
+
+    public long insertOfferRecord(SQLiteOpenHelper helper,String order_id,String courier_phone,String price, String pick_time,String arrival_time,String courier_location){
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(MyDatabase.Offers._ID,order_id);
+        cv.put(MyDatabase.Offers.COURIER_PHONE,courier_phone);
+        cv.put(MyDatabase.Offers.PRICE,price);
+        cv.put(MyDatabase.Offers.PICK_TIME,pick_time);
+        cv.put(MyDatabase.Offers.PACKAGE_ARRIVAL_TIME,arrival_time);
+        cv.put(MyDatabase.Offers.COURIER_LOCATION,courier_location);
+        long result = db.insert(MyDatabase.Offers.TABLE_NAME,null,cv);
+        db.close();
+        return result;
+    }
+
+
 }

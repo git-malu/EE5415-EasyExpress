@@ -50,11 +50,12 @@ public class MyOrderListViewFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
 //        super.onListItemClick(l, v, position, id);
-
-        TextView tv =  (TextView)v.findViewById(R.id.from_to_textView);
+        TextView tv =  (TextView)v.findViewById(R.id.order_id_textView);
         Toast.makeText(getActivity(),tv.getText().toString(), Toast.LENGTH_SHORT).show();
+
+//        new ThreadInquiryOffer().start();
         Intent intent = new Intent(getActivity(), OfferList.class);
-//        intent.putExtra("order_id",)
+        intent.putExtra("order_id",tv.getText().toString());
         startActivityForResult(intent, 0);
     }
     @Override

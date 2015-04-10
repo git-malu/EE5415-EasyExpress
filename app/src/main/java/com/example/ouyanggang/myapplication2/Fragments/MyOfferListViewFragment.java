@@ -2,6 +2,7 @@ package com.example.ouyanggang.myapplication2.Fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -16,7 +17,15 @@ import android.widget.Toast;
 
 import com.example.ouyanggang.myapplication2.Classes.MyDatabase;
 import com.example.ouyanggang.myapplication2.Classes.MySQLiteHelper;
+import com.example.ouyanggang.myapplication2.Classes.ThreadInquiryOffer;
 import com.example.ouyanggang.myapplication2.R;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 /**
  * A simple {@link android.app.Fragment} subclass.
@@ -24,6 +33,7 @@ import com.example.ouyanggang.myapplication2.R;
 public class MyOfferListViewFragment extends ListFragment {
     Context mCtx;
     Cursor cs;
+    String mOrderID;
 
     public MyOfferListViewFragment() {
         // Required empty public constructor
@@ -33,15 +43,17 @@ public class MyOfferListViewFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCtx = getActivity();
-        cs = queryDataBase();
-        setListAdapter(new MyCursorAdapter(mCtx,cs));
+        Intent intent = getActivity().getIntent();
+        mOrderID = intent.getStringExtra("order_id");
+        //have a test first
+        Toast.makeText(getActivity(),mOrderID,Toast.LENGTH_SHORT).show();
+        //start the thread here !
+        new ThreadInquiryOffer((com.example.ouyanggang.myapplication2.Activities.OfferList) getActivity(),mOrderID).start();
 
-        /*getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+//        cs = queryDataBase();
+//        setListAdapter(new MyCursorAdapter(mCtx,cs));
 
-            }
-        });*/
+
     }
 
     @Override
@@ -119,11 +131,11 @@ public class MyOfferListViewFragment extends ListFragment {
         }
     }
 
-    /*class GetOfferTask implements Runnable {
+    class GetOfferTask implements Runnable {
         private static final int PORT = 12345;
         private  Socket link = null;
-        private  Scanner in;
-        private  PrintWriter out;
+        private Scanner in;
+        private PrintWriter out;
         public String mBuffer = "null";
         @Override
         public void run() {
@@ -150,5 +162,5 @@ public class MyOfferListViewFragment extends ListFragment {
                 }
             }
         }
-    }*/
+    }
 }

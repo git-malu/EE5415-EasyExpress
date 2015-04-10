@@ -1,7 +1,6 @@
 package com.example.ouyanggang.myapplication2.Classes;
 
-import android.app.Activity;
-import android.widget.Toast;
+import com.example.ouyanggang.myapplication2.Activities.OfferList;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,14 +19,15 @@ public class ThreadInquiryOffer extends Thread {
     private static PrintWriter out;
     private static Scanner in;
     public String mBuffer = "null";
-    public String mStringSend;
-    Activity mActivity;
+    public String[] mBufferString;
+    public String mOrderID;
+    OfferList mActivity;
 
 
 
-    public ThreadInquiryOffer(Activity activity, String str) {
+    public ThreadInquiryOffer(OfferList activity, String order_id) {
         mActivity = activity;
-        mStringSend = str;
+        mOrderID = order_id;
     }
 
     @Override
@@ -36,8 +36,15 @@ public class ThreadInquiryOffer extends Thread {
             link = new Socket(MyDatabase.IP, PORT);
             in = new Scanner(link.getInputStream());
             out = new PrintWriter(link.getOutputStream(), true);
-            out.println(mStringSend);
+            out.println("inquiry_offer_order_id:"+mOrderID);
             mBuffer = in.nextLine();
+            if (!mBuffer.equalsIgnoreCase("null")){
+                mBufferString = mBuffer.split(":");
+                MySQLiteHelper helper = new MySQLiteHelper(mActivity);
+                for(int i = 0; i<mBufferString.length/5; i++) {
+                    helper.insertOfferRecord(helper,mBufferString[0+i*5],mBufferString[1+i*5],mBufferString[2+i*5],mBufferString[3+i*5],mBufferString[4+i*5],"null");//the null is courier position
+                }
+            }
         } catch (UnknownHostException uhEx) {
             System.out.println("not host find");
         } catch (IOException ioEx) {
@@ -52,13 +59,6 @@ public class ThreadInquiryOffer extends Thread {
                 ioEx.printStackTrace();
             }
         }
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if(mBuffer.equalsIgnoreCase("true")){
-                    Toast.makeText(mActivity,"Send Order successfully.",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+//        mActivity.runOnUiThread();
     }
 }

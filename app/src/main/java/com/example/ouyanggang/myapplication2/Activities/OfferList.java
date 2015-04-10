@@ -3,49 +3,40 @@ package com.example.ouyanggang.myapplication2.Activities;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.ouyanggang.myapplication2.Fragments.MyOrderListViewFragment;
+import com.example.ouyanggang.myapplication2.Fragments.MyOfferListViewFragment;
 import com.example.ouyanggang.myapplication2.R;
 
-//import android.support.v7.widget.RecyclerView;
-
-
-public class InquiryStart extends ActionBarActivity {
+public class OfferList extends ActionBarActivity {
     private Toolbar mToolbar;
-//    private RecyclerView mRecycler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inquiry_start);
-
+        setContentView(R.layout.activity_offer_list);
         //set up the toolbar
         mToolbar = (Toolbar) findViewById(R.id.tool_bar);
         mToolbar.setBackgroundColor(getResources().getColor(R.color.primary_blue));
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //
-
-        //take care of fragment
+        //fragment
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
         if (fragment == null){
-            fragment = new MyOrderListViewFragment();
+            fragment = new MyOfferListViewFragment();
             fm.beginTransaction().add(R.id.fragment_container,fragment).commit();
         }
-
-
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_track_start, menu);
+        getMenuInflater().inflate(R.menu.menu_offer_list, menu);
         return true;
     }
 
@@ -60,10 +51,6 @@ public class InquiryStart extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-        if (id == R.id.home){
-            NavUtils.navigateUpFromSameTask(this);
-        }
-
         return super.onOptionsItemSelected(item);
     }
 }

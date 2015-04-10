@@ -13,7 +13,7 @@ import com.example.ouyanggang.myapplication2.Classes.ThreadLogin;
 import com.example.ouyanggang.myapplication2.R;
 
 
-public class User extends ActionBarActivity {
+public class UserLogin extends ActionBarActivity {
     private Button mLogin,mRegister;
     private EditText mUserPhone,mUserPass;
     private static final int sRequestCodeUserRegister = 0;
@@ -27,12 +27,13 @@ public class User extends ActionBarActivity {
         mRegister = (Button) findViewById(R.id.register_button);
         mUserPhone = (EditText) findViewById(R.id.user_phone);
         mUserPass = (EditText) findViewById(R.id.user_pass);
+
         //set clickListeners
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Thread Login
-                ThreadLogin mThreadLogin = new ThreadLogin(User.this,mUserPhone.getText().toString(),mUserPass.getText().toString());
+                ThreadLogin mThreadLogin = new ThreadLogin(UserLogin.this,mUserPhone.getText().toString(),mUserPass.getText().toString());
                 mThreadLogin.start();
             }
         });
@@ -40,7 +41,7 @@ public class User extends ActionBarActivity {
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(User.this,UserRegister.class);
+                Intent intent = new Intent(UserLogin.this,UserRegister.class);
                 startActivityForResult(intent, sRequestCodeUserRegister);
             }
         });

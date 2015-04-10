@@ -102,7 +102,7 @@ public class MainActivity extends MapActivity {
                     Intent i = new Intent(MainActivity.this,UserSettingActivity.class);
                     startActivity(i);
                 }else if(menuItem.getItemId() == R.id.user){
-                    Intent i = new Intent(MainActivity.this,User.class);
+                    Intent i = new Intent(MainActivity.this,UserLogin.class);
                     startActivity(i);
                 }
                 return false;

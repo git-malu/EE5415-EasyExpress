@@ -91,8 +91,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     public Cursor queryOrderRecords(SQLiteOpenHelper helper,String[] columns, String whereClause, String[] whereArgs){
         SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor cs = db.query(MyDatabase.OrderRecords.TABLE_NAME, columns, whereClause, whereArgs, null, null, null);
-        cs.moveToFirst();
+        Cursor cs;
+        try {
+            cs = db.query(MyDatabase.OrderRecords.TABLE_NAME, columns, whereClause, whereArgs, null, null, null);
+            cs.moveToFirst();
+        }catch (IllegalArgumentException ilEx){
+            cs = null;
+        }
         return cs;
     }
 }

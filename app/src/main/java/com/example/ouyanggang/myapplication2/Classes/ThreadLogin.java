@@ -45,6 +45,27 @@ public class ThreadLogin extends Thread {
             out = new PrintWriter(link.getOutputStream(), true);
             out.println("login:"+mUserPhone+":"+mUserPass);
             mBuffer = in.nextLine();
+//            if(mBuffer.equalsIgnoreCase("true")){
+//                //format "inquiry_order_user_phone:user_phone" 根据user-phone进行筛选 order
+//                out.println("inquiry_order_user_phone:" + MyDatabase.mCurrentUserPhone);
+//                mBuffer = in.nextLine();
+//
+//                //insert into SQLite.
+//                MySQLiteHelper helper = new MySQLiteHelper(mActivity);
+//                String[] tokens = mBuffer.split(":");
+//                for(int i = 0;i<tokens.length/9;i++){
+//                    helper.insertOrderRecord(helper,
+//                            tokens[0+i*9],
+//                            tokens[1+i*9],
+//                            tokens[2+i*9],
+//                            tokens[3+i*9],
+//                            tokens[4+i*9],
+//                            tokens[5+i*9],
+//                            tokens[6+i*9],
+//                            tokens[7+i*9]
+//                    );
+//                }
+//            }
         } catch (UnknownHostException uhEx) {
             System.out.println("not host find");
         } catch (IOException ioEx) {
@@ -70,59 +91,16 @@ public class ThreadLogin extends Thread {
                 EditText mUserPhone = (EditText) mActivity.findViewById(R.id.user_phone);
                 EditText mUserPass = (EditText) mActivity.findViewById(R.id.user_pass);
                 if(mBuffer.equalsIgnoreCase("true")){
+                    //login online
                     MyDatabase.mLoginStatus = "true";
                     Toast.makeText(mActivity, "Login Success.", Toast.LENGTH_SHORT).show();
                     MyDatabase.mCurrentUserPhone = mUserPhone.getText().toString();
                     MyDatabase.mCurrentUserPass = mUserPass.getText().toString();
                     MyDatabase.mLoginStatus = "true";
-
-                    //open SQLite
-
-                    //download the orders from the server
-                    try {
-                        link = new Socket(MyDatabase.IP, PORT);
-                        in = new Scanner(link.getInputStream());
-                        out = new PrintWriter(link.getOutputStream(), true);
-                        //format "inquiry_order_user_phone:user_phone" 根据user-phone进行筛选 order
-                        out.println("inquiry_order_user_phone:" + MyDatabase.mCurrentUserPhone);
-                        mBuffer = in.nextLine();
-
-                        //insert into SQLite.
-                        MySQLiteHelper helper = new MySQLiteHelper(mActivity);
-                        String[] tokens = mBuffer.split(":");
-                        for(int i = 0;i<tokens.length/9;i++){
-                            helper.insertOrderRecord(helper,
-                                    tokens[0+i*9],
-                                    tokens[1+i*9],
-                                    tokens[2+i*9],
-                                    tokens[3+i*9],
-                                    tokens[4+i*9],
-                                    tokens[5+i*9],
-                                    tokens[6+i*9],
-                                    tokens[7+i*9]
-                                    );
-                        }
-                    } catch (UnknownHostException uhEx) {
-                        System.out.println("not host find");
-                    } catch (IOException ioEx) {
-                        ioEx.printStackTrace();
-                    } catch (NoSuchElementException noEx){
-                        ;
-                    } finally {
-                        try {
-                            if (link != null) {
-                                System.out.println("Closing down connection...");
-                                link.close();
-                            }
-                        } catch (IOException ioEx) {
-                            ioEx.printStackTrace();
-                        }
-                    }
                     mActivity.finish();
                     Log.d("Login Success","login activity finish.");
-
                 }else{
-
+                    //try login offline
                     MySQLiteHelper helper = new MySQLiteHelper(mActivity);
                     SQLiteDatabase db = helper.getReadableDatabase();
                     String[] columns = {MyDatabase.UserInfo.USER_PASS, MyDatabase.UserInfo._ID};

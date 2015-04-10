@@ -1,8 +1,8 @@
 package com.example.ouyanggang.myapplication2.Fragments;
 
 
-import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -19,21 +19,14 @@ import com.example.ouyanggang.myapplication2.Classes.MyDatabase;
 import com.example.ouyanggang.myapplication2.Classes.MySQLiteHelper;
 import com.example.ouyanggang.myapplication2.R;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link android.app.Fragment} subclass.
  */
-public class MyListViewFragment extends ListFragment {
+public class MyOfferListViewFragment extends ListFragment {
     Context mCtx;
     Cursor cs;
 
-    public MyListViewFragment() {
+    public MyOfferListViewFragment() {
         // Required empty public constructor
     }
 
@@ -44,20 +37,22 @@ public class MyListViewFragment extends ListFragment {
         cs = queryDataBase();
         setListAdapter(new MyCursorAdapter(mCtx,cs));
 
-        getActivity().runOnUiThread(new Runnable() {
+        /*getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
 
             }
-        });
+        });*/
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
 //        super.onListItemClick(l, v, position, id);
         TextView tv =  (TextView)v.findViewById(R.id.from_to_textView);
-        Toast.makeText(getActivity(),"why?????", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(),tv.getText().toString(), Toast.LENGTH_SHORT).show();
+
     }
+
 
     //    @Override
 //    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -112,7 +107,7 @@ public class MyListViewFragment extends ListFragment {
             TextView description_textView = (TextView) view.findViewById(R.id.description_textView);
             CheckBox status = (CheckBox) view.findViewById(R.id.status_checkBox);
 
-            //fill in
+            //fill in recycle view
             from_to_textView.setText("From " + cs.getString(1) + " to " + cs.getString(2));
             phone_textView.setText(cs.getString(3));
             time_textView.setText(cs.getString(4));
@@ -125,7 +120,7 @@ public class MyListViewFragment extends ListFragment {
         }
     }
 
-    class GetOfferTask implements Runnable {
+    /*class GetOfferTask implements Runnable {
         private static final int PORT = 12345;
         private  Socket link = null;
         private  Scanner in;
@@ -156,5 +151,5 @@ public class MyListViewFragment extends ListFragment {
                 }
             }
         }
-    }
+    }*/
 }

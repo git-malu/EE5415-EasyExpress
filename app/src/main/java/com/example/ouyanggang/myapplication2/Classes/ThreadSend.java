@@ -1,7 +1,8 @@
 package com.example.ouyanggang.myapplication2.Classes;
 
-import android.app.Activity;
 import android.widget.Toast;
+
+import com.example.ouyanggang.myapplication2.Activities.SendStart;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,11 +22,11 @@ public class ThreadSend extends Thread {
     private static Scanner in;
     public String mBuffer = "null";
     public String mStringSend;
-    Activity mActivity;
+    SendStart mActivity;
 
 
 
-    public ThreadSend(Activity activity,String str) {
+    public ThreadSend(SendStart activity,String str) {
         mActivity = activity;
         mStringSend = str;
     }
@@ -59,6 +60,22 @@ public class ThreadSend extends Thread {
                 if(mBuffer.equalsIgnoreCase("true")){
                     MyDatabase.mSendStatus = "true";
                     Toast.makeText(mActivity,"FeedBack: Send Order successfully.",Toast.LENGTH_SHORT).show();
+                    //let's insert into SQLite.
+                    MySQLiteHelper helper = new MySQLiteHelper(mActivity);
+                    //only 8 columns saved, position not saved, but sent.
+                    helper.insertOrderRecord(helper,
+                            mActivity.mOrderID,//order ID inserted !! made of user_phone + current date + current time as above
+                            mActivity.mFrom.getText().toString(),
+                            mActivity.mTo.getText().toString(),
+                            MyDatabase.mCurrentUserPhone,
+                            null,//courier phone set to null
+                            mActivity.mExTime.getText().toString() + " " + mActivity.mExDate.getText().toString(),
+                            mActivity.mDes.getText().toString(),
+                            "wait");//order status set to "wait"
+                    Toast.makeText(mActivity, "Order Save Successfully.", Toast.LENGTH_SHORT).show();
+                    MyDatabase.mSendStatus = "false";
+                    //just for test, remember to delete it.
+//                mDes.setText(order_id);
                 }
             }
         });

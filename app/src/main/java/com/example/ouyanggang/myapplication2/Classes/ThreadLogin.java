@@ -28,6 +28,7 @@ public class ThreadLogin extends Thread {
     private static PrintWriter out;
     public String mBuffer = "null";
 
+
     String mUserPhone,mUserPass;
 
     Activity mActivity;
@@ -45,27 +46,29 @@ public class ThreadLogin extends Thread {
             out = new PrintWriter(link.getOutputStream(), true);
             out.println("login:"+mUserPhone+":"+mUserPass);
             mBuffer = in.nextLine();
-//            if(mBuffer.equalsIgnoreCase("true")){
-//                //format "inquiry_order_user_phone:user_phone" 根据user-phone进行筛选 order
-//                out.println("inquiry_order_user_phone:" + MyDatabase.mCurrentUserPhone);
-//                mBuffer = in.nextLine();
-//
-//                //insert into SQLite.
-//                MySQLiteHelper helper = new MySQLiteHelper(mActivity);
-//                String[] tokens = mBuffer.split(":");
-//                for(int i = 0;i<tokens.length/9;i++){
-//                    helper.insertOrderRecord(helper,
-//                            tokens[0+i*9],
-//                            tokens[1+i*9],
-//                            tokens[2+i*9],
-//                            tokens[3+i*9],
-//                            tokens[4+i*9],
-//                            tokens[5+i*9],
-//                            tokens[6+i*9],
-//                            tokens[7+i*9]
-//                    );
-//                }
-//            }
+            if(mBuffer.equalsIgnoreCase("true")){
+
+                MyDatabase.mLoginStatus = "true";
+                //format "inquiry_order_user_phone:user_phone" 根据user-phone进行筛选 order
+                out.println("inquiry_order_user_phone:" + MyDatabase.mCurrentUserPhone);
+                mBuffer = in.nextLine();
+
+                //insert into SQLite.
+                MySQLiteHelper helper = new MySQLiteHelper(mActivity);
+                String[] tokens = mBuffer.split(":");
+                for(int i = 0;i<tokens.length/9;i++){
+                    helper.insertOrderRecord(helper,
+                            tokens[0+i*9],
+                            tokens[1+i*9],
+                            tokens[2+i*9],
+                            tokens[3+i*9],
+                            tokens[4+i*9],
+                            tokens[5+i*9],
+                            tokens[6+i*9],
+                            tokens[7+i*9]
+                    );
+                }
+            }
         } catch (UnknownHostException uhEx) {
             System.out.println("not host find");
         } catch (IOException ioEx) {
@@ -90,9 +93,8 @@ public class ThreadLogin extends Thread {
                 //wire up!
                 EditText mUserPhone = (EditText) mActivity.findViewById(R.id.user_phone);
                 EditText mUserPass = (EditText) mActivity.findViewById(R.id.user_pass);
-                if(mBuffer.equalsIgnoreCase("true")){
+                if(MyDatabase.mLoginStatus.equalsIgnoreCase("true")){
                     //login online
-                    MyDatabase.mLoginStatus = "true";
                     Toast.makeText(mActivity, "Login Success.", Toast.LENGTH_SHORT).show();
                     MyDatabase.mCurrentUserPhone = mUserPhone.getText().toString();
                     MyDatabase.mCurrentUserPass = mUserPass.getText().toString();

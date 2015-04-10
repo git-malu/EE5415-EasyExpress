@@ -13,19 +13,19 @@ public class MyDatabase {
     public static String mCurrentUserName;
     public static String mCurrentUserPhone;
     public static String mCurrentUserPass;
-    public static final String IP = "175.159.87.226";
+    public static final String IP = "175.159.67.55";
     public static String mLoginStatus = "false";
     public static String mSendStatus = "false";
 
     public static abstract class UserInfo implements BaseColumns{
-        //phone number is used as _ID of baseCoulums
+        //phone number is used as _ID of baseColumns
         public static final String TABLE_NAME = "user_info";
         public static final String USER_NAME = "user_name";
         public static final String USER_PASS = "user_pass";
     }
 
-    public  static abstract class OrderRecords implements BaseColumns{
-        //phone number is userd as foreign key in this table
+    public  static abstract class OrderRecords implements BaseColumns{//_ID contained !!!!!!!!!!!!!!!!!
+        //phone number is used as foreign key in this table
         public static final String TABLE_NAME = "order_records";
         public static final String FROM = "_from";
         public static final String TO = "_to";

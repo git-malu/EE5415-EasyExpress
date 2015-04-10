@@ -10,10 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.ouyanggang.myapplication2.Classes.MyDatabase;
-import com.example.ouyanggang.myapplication2.Classes.MySQLiteHelper;
 import com.example.ouyanggang.myapplication2.Classes.ThreadSend;
 import com.example.ouyanggang.myapplication2.Fragments.MyDatePickerFragment;
 import com.example.ouyanggang.myapplication2.Fragments.MyTimePickerFragment;
@@ -24,8 +22,9 @@ import java.util.Calendar;
 
 public class SendStart extends ActionBarActivity {
     private Toolbar mToolbar;
-    private Button mButtonConfirm,mButtonCancel;
-    private EditText mFrom,mTo,mDes,mExTime,mExDate;
+    public Button mButtonConfirm,mButtonCancel;
+    public EditText mFrom,mTo,mDes,mExTime,mExDate;
+    public String mOrderID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +52,7 @@ public class SendStart extends ActionBarActivity {
                 if (MyDatabase.mLoginStatus.equalsIgnoreCase("true")) {
                     //produce the Order_ID
                     final Calendar c = Calendar.getInstance();
-                    String order_id = MyDatabase.mCurrentUserPhone
+                    mOrderID = MyDatabase.mCurrentUserPhone
                             + c.get(Calendar.DAY_OF_MONTH)
                             + (c.get(Calendar.MONTH) + 1)
                             + c.get(Calendar.YEAR)
@@ -65,7 +64,7 @@ public class SendStart extends ActionBarActivity {
                     String[] tokens = mExTime.getText().toString().split(":");
 
                     String string_send = "order:"
-                            + order_id + ":"
+                            + mOrderID + ":"
                             + mFrom.getText().toString() + ":"
                             + mTo.getText().toString() + ":"
                             + MyDatabase.mCurrentUserPhone + ":"
@@ -76,23 +75,6 @@ public class SendStart extends ActionBarActivity {
                             + "null";
                     //start the send thread.
                     new ThreadSend(SendStart.this, string_send).start();
-                    if (MyDatabase.mSendStatus.equalsIgnoreCase("true")) {
-                        //let's insert into SQLite.
-                        MySQLiteHelper helper = new MySQLiteHelper(SendStart.this);
-                        helper.insertOrderRecord(helper,
-                                order_id,//order ID inserted !! made of user_phone + current date + current time as above
-                                mFrom.getText().toString(),
-                                mTo.getText().toString(),
-                                MyDatabase.mCurrentUserPhone,
-                                null,//courier phone set to null
-                                mExTime.getText().toString() + " " + mExDate.getText().toString(),
-                                mDes.getText().toString(),
-                                "wait");//order status set to "wait"
-                        Toast.makeText(SendStart.this, "Order sent successfully.", Toast.LENGTH_SHORT).show();
-                        MyDatabase.mSendStatus = "false";
-                        //just for test, remember to delete it.
-//                mDes.setText(order_id);
-                    }
                 }
             }
         });

@@ -14,7 +14,7 @@ import com.example.ouyanggang.myapplication2.R;
 
 
 public class UserLogin extends ActionBarActivity {
-    private Button mLogin,mRegister;
+    public Button mLogin,mRegister;
     private EditText mUserPhone,mUserPass;
     private static final int sRequestCodeUserRegister = 0;
     @Override
@@ -54,7 +54,6 @@ public class UserLogin extends ActionBarActivity {
             mUserPhone.setText(data.getStringExtra("user_phone"));
             mUserPass.setText(data.getStringExtra("user_pass"));
         }
-
     }
 
     @Override

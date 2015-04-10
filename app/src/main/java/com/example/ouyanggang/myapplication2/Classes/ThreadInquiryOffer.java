@@ -14,7 +14,7 @@ import java.util.Scanner;
  * use the constructor as input.
  * use the mBuffer as output.
  */
-public class ThreadInquiry extends Thread {
+public class ThreadInquiryOffer extends Thread {
     private static final int PORT = 12345;
     private static Socket link = null;
     private static PrintWriter out;
@@ -25,7 +25,7 @@ public class ThreadInquiry extends Thread {
 
 
 
-    public ThreadInquiry(Activity activity, String str) {
+    public ThreadInquiryOffer(Activity activity, String str) {
         mActivity = activity;
         mStringSend = str;
     }

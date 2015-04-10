@@ -54,7 +54,8 @@ public class MyOrderListViewFragment extends ListFragment {
         TextView tv =  (TextView)v.findViewById(R.id.from_to_textView);
         Toast.makeText(getActivity(),tv.getText().toString(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getActivity(), OfferList.class);
-        startActivityForResult(intent,0);
+//        intent.putExtra("order_id",)
+        startActivityForResult(intent, 0);
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -109,6 +110,7 @@ public class MyOrderListViewFragment extends ListFragment {
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
             //wire up!
+            TextView order_id = (TextView) view.findViewById(R.id.order_id_textView);
             TextView from_to_textView = (TextView) view.findViewById(R.id.from_to_textView);
             TextView phone_textView = (TextView) view.findViewById(R.id.phone_textView);
             TextView time_textView = (TextView) view.findViewById(R.id.time_textView);
@@ -116,6 +118,7 @@ public class MyOrderListViewFragment extends ListFragment {
             CheckBox status = (CheckBox) view.findViewById(R.id.status_checkBox);
 
             //fill in recycle view
+            order_id.setText(cs.getString(0));
             from_to_textView.setText("From " + cs.getString(1) + " to " + cs.getString(2));
             phone_textView.setText(cs.getString(3));
             time_textView.setText(cs.getString(4));

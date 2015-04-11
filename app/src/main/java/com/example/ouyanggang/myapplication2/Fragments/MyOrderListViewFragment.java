@@ -1,6 +1,7 @@
 package com.example.ouyanggang.myapplication2.Fragments;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -48,6 +49,14 @@ public class MyOrderListViewFragment extends ListFragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (cs != null) {
+            cs.close();
+        }
+    }
+
+    @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
 //        super.onListItemClick(l, v, position, id);
         TextView tv =  (TextView)v.findViewById(R.id.order_id_textView);
@@ -61,7 +70,22 @@ public class MyOrderListViewFragment extends ListFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Toast.makeText(getActivity(),"I'm back!", Toast.LENGTH_SHORT).show();//usable! tested.
+        if(requestCode == 0 && resultCode == Activity.RESULT_OK){
+            String result_order_id = data.getStringExtra("order_id");
+            String result_courier_phone = data.getStringExtra("courier_phone");
+            Toast.makeText(getActivity(), result_order_id +"  " + result_courier_phone + "I'm back!", Toast.LENGTH_LONG).show();//usable! tested.
+            MySQLiteHelper helper = new MySQLiteHelper(getActivity());
+            String whereClause = MyDatabase.OrderRecords._ID + " like ?";
+            String[] whereArgs = {result_order_id};
+            helper.updateOrderRecords(result_courier_phone,"accepted",whereClause,whereArgs);
+            try{
+                cs.close();
+            }catch (Exception ex){
+                ;
+            }
+            cs = queryDataBase();
+            setListAdapter(new MyCursorAdapter(mCtx,cs));
+        }
     }
 
     //    @Override

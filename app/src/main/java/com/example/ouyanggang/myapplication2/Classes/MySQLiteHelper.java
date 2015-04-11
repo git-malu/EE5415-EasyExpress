@@ -105,7 +105,14 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         }
         return cs;
     }
-
+    public void updateOrderRecords(String courier_phone,String status,String whereClause,String[] whereArgs){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(MyDatabase.OrderRecords.STATUS,status);
+        cv.put(MyDatabase.OrderRecords.COURIER_PHONE,courier_phone);
+        db.update(MyDatabase.OrderRecords.TABLE_NAME,cv,whereClause,whereArgs);
+        db.close();
+    }
     public long insertOfferRecord(SQLiteOpenHelper helper,String order_id,String courier_phone,String price, String pick_time,String arrival_time,String courier_location){
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -132,6 +139,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         }
         return cs;
     }
+
+
 
 
 

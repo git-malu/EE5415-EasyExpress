@@ -9,7 +9,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.ouyanggang.myapplication2.Fragments.MyOrderListViewFragment;
 import com.example.ouyanggang.myapplication2.R;
@@ -44,15 +43,15 @@ public class InquiryStart extends ActionBarActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 0 && resultCode == RESULT_OK){
-            String result_order_id = data.getStringExtra("order_id");
-            String result_courier_phone = data.getStringExtra("courier_phone");
-            Toast.makeText(this,result_order_id+result_courier_phone,Toast.LENGTH_SHORT).show();
-        }
-    }
+////        if(requestCode == 0 && resultCode == RESULT_OK){
+//            String result_order_id = data.getStringExtra("order_id");
+//        String result_courier_phone = data.getStringExtra("courier_phone");
+//            Toast.makeText(this,"test", Toast.LENGTH_SHORT).show();
+////        }
+//    }
 
 
     @Override

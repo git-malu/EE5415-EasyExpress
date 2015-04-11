@@ -17,6 +17,12 @@ public class MyDatabase {
     public static String mLoginStatus = "false";//offline,true,false
     public static String mSendStatus = "false";
 
+    public static final String mPrefUserInfoSave = "prefUserInfoSave";
+    public static final String mPrefServerIP = "prefServerIP";
+    public static final String mPrefUserPhone = "prefUserPhone";
+    public static final String mPrefUserPass = "prefUserPass";
+
+
     public static abstract class UserInfo implements BaseColumns{
         //phone number is used as _ID of baseColumns
         public static final String TABLE_NAME = "user_info";

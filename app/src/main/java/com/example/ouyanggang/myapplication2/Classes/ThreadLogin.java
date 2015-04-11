@@ -68,6 +68,8 @@ public class ThreadLogin extends Thread {
                             tokens[7+i*9]
                     );
                 }
+//                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+//                Editor editor = pref.edit();
             }
         } catch (UnknownHostException uhEx) {
             System.out.println("not host find");

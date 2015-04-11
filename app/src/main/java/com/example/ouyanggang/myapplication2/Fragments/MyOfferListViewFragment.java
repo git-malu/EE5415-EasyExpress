@@ -60,6 +60,14 @@ public class MyOfferListViewFragment extends ListFragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(cs != null) {
+            cs.close();
+        }
+    }
+
+    @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
 //        super.onListItemClick(l, v, position, id);
         TextView tv =  (TextView)v.findViewById(R.id.order_id_textView);
@@ -100,7 +108,7 @@ public class MyOfferListViewFragment extends ListFragment {
         public void bindView(View view, Context context, Cursor cursor) {
             //wire up!
             TextView order_id = (TextView) view.findViewById(R.id.order_id_textView);
-            TextView courier_phone = (TextView) view.findViewById(R.id.courier_phone);
+            final TextView courier_phone = (TextView) view.findViewById(R.id.courier_phone);
             TextView price = (TextView) view.findViewById(R.id.price);
             TextView pick_time = (TextView) view.findViewById(R.id.pick_time);
             TextView arrival = (TextView) view.findViewById(R.id.arrival_time);
@@ -118,7 +126,7 @@ public class MyOfferListViewFragment extends ListFragment {
                 public void onClick(View v) {
                     Intent intent = new Intent();
                     intent.putExtra("order_id",cs.getString(0));
-                    intent.putExtra("courier_phone",cs.getString(1));
+                    intent.putExtra("courier_phone",courier_phone.getText().toString());
                     getActivity().setResult(Activity.RESULT_OK,intent);
                 }
             });
@@ -137,8 +145,6 @@ public class MyOfferListViewFragment extends ListFragment {
                     startActivity(intent);
                 }
             }.init(pass));
-
-
         }
     }
     public class ThreadInquiryOffer extends Thread{
@@ -152,16 +158,27 @@ public class MyOfferListViewFragment extends ListFragment {
                 in = new Scanner(link.getInputStream());
                 out = new PrintWriter(link.getOutputStream(), true);
                 out.println("inquiry_offer_order_id:"+mOrderID);
-                mBuffer = in.nextLine();
-                if (!mBuffer.equalsIgnoreCase("null")){
-                    //split
-                    mBufferString = mBuffer.split(":");
-                    final MySQLiteHelper helper = new MySQLiteHelper(getActivity());
-                    for(int i = 0; i<mBufferString.length/5; i++) {
-                        helper.insertOfferRecord(helper,mBufferString[0+i*5],mBufferString[1+i*5],mBufferString[2+i*5],mBufferString[3+i*5],mBufferString[4+i*5],"null");//the null is courier position
+
+                if(MyDatabase.mLoginStatus.equalsIgnoreCase("true")){
+                    mBuffer = in.nextLine();
+                    if (!mBuffer.equalsIgnoreCase("null")){
+                        //split
+                        mBufferString = mBuffer.split(":");
+                        final MySQLiteHelper helper = new MySQLiteHelper(getActivity());
+                        for(int i = 0; i<mBufferString.length/5; i++) {
+                            helper.insertOfferRecord(helper,mBufferString[0+i*5],mBufferString[1+i*5],mBufferString[2+i*5],mBufferString[3+i*5],mBufferString[4+i*5],"null");//the null is courier position
+                        }
+                        //about UI
+                        //set Adapter !!
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                cs = queryDataBase();
+                                setListAdapter(new MyCursorAdapter(mCtx,cs));
+                            }
+                        });
                     }
-                    //about UI
-                    //set Adapter !!
+                }else {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -170,12 +187,13 @@ public class MyOfferListViewFragment extends ListFragment {
                         }
                     });
                 }
+
             } catch (UnknownHostException uhEx) {
                 System.out.println("not host find");
             } catch (IOException ioEx) {
                 ioEx.printStackTrace();
             } finally {
-                cs.close();// close the Cursor !!!!!!!!!!!!
+//                cs.close();// close the Cursor !!!!!!!!!!!!
                 try {
                     if (link != null) {
                         System.out.println("Closing down connection...");

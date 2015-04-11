@@ -1,9 +1,11 @@
 package com.example.ouyanggang.myapplication2.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +36,12 @@ public class UserLogin extends ActionBarActivity {
         mUserPhone = (EditText) findViewById(R.id.user_phone);
         mUserPass = (EditText) findViewById(R.id.user_pass);
 
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        if(pref.getBoolean(MyDatabase.mPrefUserInfoSave,false)){
+            SharedPreferences pref2 = getApplicationContext().getSharedPreferences("UserInfo", MODE_PRIVATE);
+            mUserPhone.setText(pref2.getString(MyDatabase.mPrefUserPhone,""));
+            mUserPass.setText(pref2.getString(MyDatabase.mPrefUserPass,""));
+        }
         //set clickListeners
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override

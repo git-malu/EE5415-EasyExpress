@@ -1,7 +1,9 @@
 package com.example.ouyanggang.myapplication2.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +16,7 @@ import com.baidu.mapapi.MKGeneralListener;
 import com.baidu.mapapi.MapActivity;
 import com.baidu.mapapi.MapController;
 import com.baidu.mapapi.MapView;
+import com.example.ouyanggang.myapplication2.Classes.MyDatabase;
 import com.example.ouyanggang.myapplication2.R;
 
 /*to do list
@@ -43,6 +46,7 @@ public class MainActivity extends MapActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MyDatabase.IP = PreferenceManager.getDefaultSharedPreferences(this).getString("prefServerIP","null");
         mapView = (MapView) this.findViewById(R.id.bmapView);
         bMapManager = new BMapManager(MainActivity.this);
         // 必须要加载key
@@ -100,7 +104,7 @@ public class MainActivity extends MapActivity {
             public boolean onMenuItemClick(MenuItem menuItem) {
                 if(menuItem.getItemId() == R.id.pref_settings){
                     Intent i = new Intent(MainActivity.this,UserSettingActivity.class);
-                    startActivity(i);
+                    startActivityForResult(i, 11);
                 }else if(menuItem.getItemId() == R.id.user){
                     Intent i = new Intent(MainActivity.this,UserLogin.class);
                     startActivity(i);
@@ -108,9 +112,16 @@ public class MainActivity extends MapActivity {
                 return false;
             }
         });
-
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 11){
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+            MyDatabase.IP = pref.getString("prefServerIP", "null");
+            Toast.makeText(this,"ServerIP is now "+ MyDatabase.IP,Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     protected void onDestroy() {

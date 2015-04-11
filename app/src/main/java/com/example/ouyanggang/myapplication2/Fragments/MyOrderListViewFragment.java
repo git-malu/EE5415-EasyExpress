@@ -90,9 +90,15 @@ public class MyOrderListViewFragment extends ListFragment {
                 MyDatabase.OrderRecords.STATUS//6
         };
         String whereClause = MyDatabase.OrderRecords.USER_PHONE+" like ?";
-        String[] whereArgs = {MyDatabase.mCurrentUserPhone};
-        Cursor cs = helper.queryOrderRecords(helper, columns, whereClause, whereArgs);
-        return cs;
+        //
+        if(!MyDatabase.mLoginStatus.equalsIgnoreCase("false")) {
+            String[] whereArgs = {MyDatabase.mCurrentUserPhone};
+            Cursor cs = helper.queryOrderRecords(helper, columns, whereClause, whereArgs);
+            return cs;
+        }
+        return null;
+        //
+
     }
 
 

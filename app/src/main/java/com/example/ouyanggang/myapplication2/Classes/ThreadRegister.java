@@ -61,9 +61,12 @@ public class ThreadRegister extends Thread {
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                //if register successfully on the net, register offline too
                 if(mBuffer.equalsIgnoreCase("true")){
+                    //
                     MySQLiteHelper helper = new MySQLiteHelper(mActivity);
                     long result = helper.registerUserInfo(helper,mUserPhone,mUserName,mUserPass);
+                    //
                     Toast.makeText(mActivity,"Registration success.",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
                     intent.putExtra("user_name",mUserName);

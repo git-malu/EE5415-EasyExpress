@@ -95,6 +95,12 @@
                 android:layout_weight="1"/>
 
         </LinearLayout>
+        <Button
+            android:id="@+id/offline_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/primary_green_alpha"
+            android:text="Offline Mode"/>
     </LinearLayout>
 
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.example.ouyanggang.myapplication2.Fragments;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -55,6 +56,7 @@ public class MyOfferListViewFragment extends ListFragment {
         Toast.makeText(getActivity(),mOrderID,Toast.LENGTH_SHORT).show();
         //start the thread here !
         new ThreadInquiryOffer().start();
+
     }
 
     @Override
@@ -114,9 +116,14 @@ public class MyOfferListViewFragment extends ListFragment {
             select.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ;
+                    Intent intent = new Intent();
+                    intent.putExtra("order_id",cs.getString(0));
+                    intent.putExtra("courier_phone",cs.getString(1));
+                    getActivity().setResult(Activity.RESULT_OK,intent);
                 }
             });
+
+            //set listeners
             String pass = courier_phone.getText().toString();
             call.setOnClickListener(new View.OnClickListener() {
                 String mString;
@@ -130,6 +137,8 @@ public class MyOfferListViewFragment extends ListFragment {
                     startActivity(intent);
                 }
             }.init(pass));
+
+
         }
     }
     public class ThreadInquiryOffer extends Thread{
@@ -152,10 +161,10 @@ public class MyOfferListViewFragment extends ListFragment {
                         helper.insertOfferRecord(helper,mBufferString[0+i*5],mBufferString[1+i*5],mBufferString[2+i*5],mBufferString[3+i*5],mBufferString[4+i*5],"null");//the null is courier position
                     }
                     //about UI
+                    //set Adapter !!
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-//                            MySQLiteHelper helper = new MySQLiteHelper(getActivity())
                             cs = queryDataBase();
                             setListAdapter(new MyCursorAdapter(mCtx,cs));
                         }
@@ -166,6 +175,7 @@ public class MyOfferListViewFragment extends ListFragment {
             } catch (IOException ioEx) {
                 ioEx.printStackTrace();
             } finally {
+                cs.close();// close the Cursor !!!!!!!!!!!!
                 try {
                     if (link != null) {
                         System.out.println("Closing down connection...");

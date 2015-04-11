@@ -1,9 +1,6 @@
 package com.example.ouyanggang.myapplication2.Classes;
 
 import android.app.Activity;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -46,6 +43,8 @@ public class ThreadLogin extends Thread {
             out = new PrintWriter(link.getOutputStream(), true);
             out.println("login:"+mUserPhone+":"+mUserPass);
             mBuffer = in.nextLine();
+
+            //if login success download all the user's orders
             if(mBuffer.equalsIgnoreCase("true")){
                 MyDatabase.mCurrentUserPhone = mUserPhone;
                 MyDatabase.mCurrentUserPass = mUserPass;
@@ -76,7 +75,9 @@ public class ThreadLogin extends Thread {
             ioEx.printStackTrace();
         } catch (NoSuchElementException noEx){
             ;
-        } finally {
+        } catch (Exception Ex){
+            ;
+        }finally {
             try {
                 if (link != null) {
                     System.out.println("Closing down connection...");
@@ -100,42 +101,14 @@ public class ThreadLogin extends Thread {
                     MyDatabase.mCurrentUserPhone = mUserPhone.getText().toString();
                     MyDatabase.mCurrentUserPass = mUserPass.getText().toString();
                     MyDatabase.mLoginStatus = "true";
-                    mActivity.finish();
-                    Log.d("Login Success","login activity finish.");
-                }else{
-                    //try login offline
+
+                    //and save the user data in SQLite in case of offline login.
                     MySQLiteHelper helper = new MySQLiteHelper(mActivity);
-                    SQLiteDatabase db = helper.getReadableDatabase();
-                    String[] columns = {MyDatabase.UserInfo.USER_PASS, MyDatabase.UserInfo._ID};
-                    String selection = MyDatabase.UserInfo._ID+" like ?";
-                    String[] selectionArgs = {mUserPhone.getText().toString()};
-                    Cursor cs = null;
-                    //if password match
-                    try{
-                        //not all the columns are queried. Only 2 columns !!
+                    long result = helper.registerUserInfo(helper,mUserPhone.getText().toString(),"null",mUserPass.getText().toString());//missing username return.
 
-                        cs = db.query(MyDatabase.UserInfo.TABLE_NAME, columns, selection, selectionArgs, null, null, null);
-                        cs.moveToFirst();
-
-                        if(cs.getString(0).equals(mUserPass.getText().toString())) {
-                            MyDatabase.mCurrentUserName = cs.getString(1);
-                            MyDatabase.mCurrentUserPhone = mUserPhone.getText().toString();
-                            MyDatabase.mCurrentUserPass = mUserPass.getText().toString();
-                            Toast.makeText(mActivity, "OffLine Login success.", Toast.LENGTH_SHORT).show();
-                            MyDatabase.mLoginStatus = "offline";
-                            mActivity.finish();
-                        }else{
-                            Toast.makeText(mActivity,"OffLine Login failed.",Toast.LENGTH_SHORT).show();
-                            MyDatabase.mLoginStatus = "false";
-                        }
-                    }catch (RuntimeException ex){
-                        Toast.makeText(mActivity,"OffLine Login failed.",Toast.LENGTH_SHORT).show();
-                        MyDatabase.mLoginStatus = "false";
-                    }
-                    finally {
-                        cs.close();//remember to close the cursor
-                        db.close();
-                    }
+                    mActivity.finish();
+                }else{
+                    ;
                 }
             }
         });

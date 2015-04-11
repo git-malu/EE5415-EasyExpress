@@ -13,8 +13,8 @@ public class MyDatabase {
     public static String mCurrentUserName;
     public static String mCurrentUserPhone;
     public static String mCurrentUserPass;
-    public static final String IP = "144.214.103.219";
-    public static String mLoginStatus = "false";
+    public static String IP = "144.214.103.219";
+    public static String mLoginStatus = "false";//offline,true,false
     public static String mSendStatus = "false";
 
     public static abstract class UserInfo implements BaseColumns{
